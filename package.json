@@ -1,6 +1,6 @@
 {
   "name": "htz-dialog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Accessible dialog and modal windows",
   "repository": {
     "type": "git",
@@ -47,8 +47,8 @@
       "lib": "src"
     },
     "dependencies": {
-      "haaretz/htz-dispatch-event": "github:haaretz/htz-dispatch-event@^1.0.0",
-      "haaretz/htz-get-focusables": "github:haaretz/htz-get-focusables@^1.0.0"
+      "htz-dispatch-event": "github:haaretz/htz-dispatch-event@^1.0.0",
+      "htz-get-focusables": "github:haaretz/htz-get-focusables@^1.0.0"
     },
     "devDependencies": {
       "plugin-babel": "npm:systemjs-plugin-babel@^0.0.12"
