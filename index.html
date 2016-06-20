@@ -14,7 +14,7 @@
 
     <div id="page-wrapper">
       <button type="button" data-htz-dialog-show="modalDialog">Open modal using DOM API</button>
-      <div id="modalDialog" class="js-dialog-wrapper dialog-wrapper dialog-wrapper--modal" data-htz-dialog-append-to="modals" data-htz-dialog-hide tabindex="-1" aria-hidden="true">
+      <div id="modalDialog" class="js-dialog-wrapper dialog-wrapper dialog-wrapper--modal" data-htz-dialog-append-to="modals" tabindex="-1" aria-hidden="true">
         <div class="js-dialog dialog" role="dialog">
           <h1>Modal Title</h1>
           <p>Modal textual content with a <a href="#!">link</a> and some text.</p>
@@ -35,12 +35,12 @@
 
           <button type="button" data-htz-dialog-show="dialog">Open dialog</button>
         </div>
-        <div id="dialog" class="js-dialog-wrapper dialog-wrapper" data-htz-dialog-elem-to-hide="conceal" data-htz-dialog-hide tabindex="-1" aria-hidden="true">
+        <div id="dialog" class="js-dialog-wrapper dialog-wrapper" data-htz-dialog-elem-to-hide="conceal" tabindex="-1" aria-hidden="true">
           <div class="js-dialog dialog" role="dialog">
             <h3>Dialog Title</h3>
             <p>Dialog textual content with a <a href="#!">link</a> and some text.</p>
             <button type="button" data-htz-dialog-next>Continue to 2nd dialog</button>
-            <button type="button" data-htz-dialog-hide>close</button>
+            <button type="button" data-htz-dialog-hide><div>close</div></button>
           </div>
           <div class="js-dialog dialog dialog--no-anim" role="dialog">
             <h3>Title of second dialog</h3>

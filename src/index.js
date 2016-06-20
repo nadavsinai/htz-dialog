@@ -65,10 +65,9 @@ export default function htzDialog(
   const showBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-show="${wrapper.id}"]`));
   const nextBtns = Array.from(wrapper.querySelectorAll('[data-htz-dialog-next]'));
   const prevBtns = Array.from(wrapper.querySelectorAll('[data-htz-dialog-prev]'));
-  const hideBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-hide="${wrapper.id}"]`));
-  const internalHideBtns = Array.from(wrapper.querySelectorAll('[data-htz-dialog-hide]'));
+  const hideBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-hide="${wrapper.id}"]`))
+    .concat(Array.from(wrapper.querySelectorAll('[data-htz-dialog-hide]')));
 
-  if (wrapper.getAttribute('data-htz-dialog-hide') === '') internalHideBtns.push(wrapper);
 
   // Determine Which element is being concealed by the dialog
   const elemToConceal = document.getElementById(elemToHideId) || elemToHide;
@@ -259,24 +258,13 @@ export default function htzDialog(
   // Close and open dialog
   showBtns.forEach((showBtn) => { showBtn.addEventListener('click', show); });
   hideBtns.forEach((hideBtn) => { hideBtn.addEventListener('click', hide); });
-
-  // Handle click event inside dialog.
   wrapper.addEventListener('click', (evt) => {
-    const target = evt.target;
-
-    if (internalHideBtns.includes(target)) {
-      evt.preventDefault();
-      hide();
-    }
-    else if (nextBtns.includes(target)) {
-      evt.preventDefault();
-      next();
-    }
-    else if (prevBtns.includes(target)) {
-      evt.preventDefault();
-      prev();
-    }
+    if (evt.currentTarget === evt.target) hide();
   });
+
+  // Next and previous dialogs
+  nextBtns.forEach((nextBtn) => { nextBtn.addEventListener('click', next); });
+  prevBtns.forEach((prevBtn) => { prevBtn.addEventListener('click', prev); });
 
   // Handle keyboard events
   wrapper.addEventListener('keydown', (evt) => {
