@@ -30,10 +30,10 @@ const allInstances = [];
  *    The element the dialog will cover.
  * @param {HTMLElement} [appendTo] - The element to append the dialog to, if any.
  *
- * @throws Will throw an error if the `wrapper` element does not have an `id` attribute.
+ * @throws Will throw an error if `wrapper` is null or undefined.
  * @throws Will throw an error if the `appendTo` param is defined with anything but an Element.
  *
- * @return {module:htz-dialog~API} - An API for programatically handling the
+ * @return {module:htz-dialog#API} - An API for programatically handling the
  *    initialized dialog.
  */
 export default function htzDialog(
@@ -42,26 +42,30 @@ export default function htzDialog(
   elemToHide = document.getElementById('page-wrapper'),
   appendTo = undefined
 ) {
-  // Fail fast if wrapper doesn't have an id or if `appendTo` is defined, but isn't an Element.
-  if (!wrapper.id) throw new Error('Dialog wrapper elements must have an ID.');
+  // Fail fast if `wrapper` is `null` or `undefined`,
+  // and when `appendTo` is defined, but isn't an Element.
   if (appendTo && !(appendTo instanceof Element)) {
     throw new Error('The `appendTo` param must be an Element. You provided a ${typeof appendTo}');
   }
+  if (wrapper === undefined || wrapper == null) {
+    throw new Error('the argument provided as the `wrapper` parameter must be an HTMLElement');
+  }
 
-  // Get all dialog windows within the dialog wrapper
-  const dialogs = Array.from(wrapper.getElementsByClassName(dialogClass));
+  // Ensure `wrapper` has an id attribute
+  const wrapperId = wrapper.id || `dialog${Math.random()}`;
 
-  // Hide dialog windows and make them programatically selectable
-  dialogs.forEach((dialog) => {
-    dialog
-      .setAttribute('aria-hidden', 'true');
-    dialog
-      .setAttribute('tabindex', '-1');
-  });
+  // Get all dialog windows within the dialog wrapper,
+  // hide and make them programatically selectable
+  const dialogs = Array.from(wrapper.getElementsByClassName(dialogClass))
+    .map((dialog) => {
+      dialog.setAttribute('aria-hidden', 'true');
+      dialog.setAttribute('tabindex', '-1');
+
+      return dialog;
+    });
 
 
   // --- Process DOM API --- //
-
   // Determine element to hide
   const elemToHideId = wrapper.getAttribute('data-htz-dialog-elem-to-hide');
 
@@ -70,10 +74,10 @@ export default function htzDialog(
   const moveToElem = appendTo || moveToId ? document.getElementById(moveToId) : undefined;
 
   // Get all show, hide, next and prev buttons
-  const showBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-show="${wrapper.id}"]`));
+  const showBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-show="${wrapperId}"]`));
   const nextBtns = Array.from(wrapper.querySelectorAll('[data-htz-dialog-next]'));
   const prevBtns = Array.from(wrapper.querySelectorAll('[data-htz-dialog-prev]'));
-  const hideBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-hide="${wrapper.id}"]`))
+  const hideBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-hide="${wrapperId}"]`))
     .concat(Array.from(wrapper.querySelectorAll('[data-htz-dialog-hide]')));
 
 
