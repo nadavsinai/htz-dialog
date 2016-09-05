@@ -304,7 +304,7 @@ export default function htzDialog(
   /**
    * Go to prev dialog within a dialog
    *
-   * @callback module:htz-dialog~prev
+   * @callback module:htz-dialog#prev
    *
    * @return {HTMLElement} The focused dialog window.
    */
@@ -344,16 +344,16 @@ export default function htzDialog(
   });
 
 
-  // --- Return Public API --- //
+  // --- Public API --- //
   /**
    * A public API for programmatically controlling the initialized dialog instance.
    * @typedef {Object} module:htz-dialog#API
    * @prop {HTMLElement} wrapper - The wrapper element of the current dialog
    * @prop {Boolean} isVisible - Indicates if the instance is currently visible.
-   * @prop {module:htz-dialog~show} show - Reveal instance.
-   * @prop {module:htz-dialog~hide} hide - Hide instance.
-   * @prop {module:htz-dialog~next} next - Move to next dialog in wrapper, if one exists
-   * @prop {module:htz-dialog~prev} prev - Move to previous dialog in wrapper, if one exists
+   * @prop {module:htz-dialog#show} show - Reveal instance.
+   * @prop {module:htz-dialog#hide} hide - Hide instance.
+   * @prop {module:htz-dialog#next} next - Move to next dialog in wrapper, if one exists
+   * @prop {module:htz-dialog#prev} prev - Move to previous dialog in wrapper, if one exists
    */
   const api = {
     wrapper,
@@ -368,3 +368,31 @@ export default function htzDialog(
 
   return api;
 }
+
+/**
+ * Get the instance API of a certain dialog wrapper.
+ *
+ * @memberof module:htz-dialog
+ * @static
+ *
+ * @param {String|HTMLElement} dialog - A dialog wrapper (`HTMLElement`) or the `id` of one.
+ *
+ * @return {module:htz-dialog#API} - The API to control the instance.
+ */
+function getInstance(dialog) {
+  const instanceType = (
+    Object
+      .prototype
+      .toString
+      .call(dialog)
+      .match(/^\[object\s+(.*?)\]$/)[1]
+    || ''
+  ).toLowerCase();
+
+  const elem = instanceType === 'string' ? document.getElementById(dialog) : dialog;
+
+  return allInstances.filter(item => item.wrapper === elem)[0];
+}
+
+// Asign `getInstance` as a static method
+htzDialog.getInstance = getInstance;
