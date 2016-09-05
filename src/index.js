@@ -90,7 +90,8 @@ export default function htzDialog(
    * @param {Number} [goToIndex=0] The index number of the dialog window to
    *    reveal in the `dialogs` array.
    *
-   * @fires module:htz-dialog~dialog:focus-dialog-window
+   * @fires module:htz-dialog#dialog:focus-dialog-window-before
+   * @fires module:htz-dialog#dialog:focus-dialog-window-after
    *
    * @return {HTMLElement} The focused dialog window.
    *
@@ -99,30 +100,46 @@ export default function htzDialog(
   function goToDialog(goToIndex = 0) {
     const goToElem = dialogs[goToIndex];
 
-    if (goToElem) {
-      goToElem.removeAttribute('aria-hidden');
-      goToElem.focus();
+    /**
+     * Fired whenever a dialog  window is focused.
+     * Stops execution if any of its handlers calls `event.preventDefault`
+     * @event module:htz-dialog#dialog:focus-dialog-before
+     * @type {Object}
+     * @prop {Object} details
+     * @prop {HTMLElement} details.wrapper - The wrapper element
+     * @prop {HTMLElement} details.dialog - The focused dialog window
+     */
+    const allowed = dispatchEvent(wrapper, 'dialog:focus-dialog-before', {
+      wrapper,
+      dialog: goToElem,
+    });
 
-      if (visibleDialogIndex > -1) {
-        dialogs[visibleDialogIndex].setAttribute('aria-hidden', 'true');
+    if (allowed) {
+      if (goToElem) {
+        goToElem.removeAttribute('aria-hidden');
+        goToElem.focus();
+
+        if (visibleDialogIndex > -1) {
+          dialogs[visibleDialogIndex].setAttribute('aria-hidden', 'true');
+        }
+
+        visibleDialogIndex = goToIndex;
+
+        /**
+         * Fired whenever a dialog  window is focused.
+         * @event module:htz-dialog#dialog:focus-dialog-after
+         * @type {Object}
+         * @prop {Object} details
+         * @prop {HTMLElement} details.wrapper - The wrapper element
+         * @prop {HTMLElement} details.dialog - The focused dialog window
+         */
+        dispatchEvent(wrapper, 'dialog:focus-dialog-after', {
+          wrapper,
+          dialog: goToElem,
+        });
+
+        return goToElem;
       }
-
-      visibleDialogIndex = goToIndex;
-
-      /**
-      * Fired whenever a dialog  window is focused.
-      * @event module:htz-dialog~dialog:focus-dialog
-      * @type {Object}
-      * @prop {Object} details
-      * @prop {HTMLElement} details.wrapper - The wrapper element
-      * @prop {HTMLElement} details.dialog - The focused dialog window
-      */
-      dispatchEvent(wrapper, 'dialog:focus-dialog', {
-        wrapper,
-        dialog: goToElem,
-      });
-
-      return goToElem;
     }
 
     return undefined;
@@ -173,68 +190,98 @@ export default function htzDialog(
   /**
    * Reveal a dialog window.
    *
-   * @callback module:htz-dialog~show
-   * @fires module:htz-dialog~dialog:show
+   * @callback module:htz-dialog#show
+   * @fires module:htz-dialog#dialog:show-before
+   * @fires module:htz-dialog#dialog:show-after
    */
   function show() {
-    isVisible = true;
-    wrapper.removeAttribute('aria-hidden');
-
-    focusOnClose = document.activeElement;
-    goToDialog(0);
-
-    elemToConceal.setAttribute('aria-hidden', 'true');
-
-
-    document.body.addEventListener('focus', hideWhenFocusLost, true);
-    document.body.addEventListener('mousedown', hideWhenFocusLost);
-
     /**
      * Fired whenever a dialog is being opened.
-     * @event module:htz-dialog~dialog:show
+     * Stops execution if any of its handlers calls `event.preventDefault`
+     * @event module:htz-dialog#dialog:show-before
      * @type {Object}
      * @prop {Object} details
      * @prop {HTMLElement} details.dialog - The opened dialog wrapper
      */
-    dispatchEvent(wrapper, 'dialog:show', {
+    const allowed = dispatchEvent(wrapper, 'dialog:show-before', {
       dialog: wrapper,
     });
+
+    if (allowed) {
+      isVisible = true;
+      wrapper.removeAttribute('aria-hidden');
+
+      focusOnClose = document.activeElement;
+      goToDialog(0);
+
+      elemToConceal.setAttribute('aria-hidden', 'true');
+
+
+      document.body.addEventListener('focus', hideWhenFocusLost, true);
+      document.body.addEventListener('mousedown', hideWhenFocusLost);
+
+      /**
+       * Fired whenever a dialog is being opened.
+       * @event module:htz-dialog#dialog:show-after
+       * @type {Object}
+       * @prop {Object} details
+       * @prop {HTMLElement} details.dialog - The opened dialog wrapper
+       */
+      dispatchEvent(wrapper, 'dialog:show-after', {
+        dialog: wrapper,
+      });
+    }
   }
 
   /**
    * Hide a dialog window.
    *
-   * @callback module:htz-dialog~hide
-   * @fires module:htz-dialog~dialog:hide
+   * @callback module:htz-dialog#hide
+   * @fires module:htz-dialog#dialog:hide-before
+   * @fires module:htz-dialog#dialog:hide-after
    */
   function hide() {
-    const visibleDialog = dialogs[visibleDialogIndex];
-    isVisible = false;
-    elemToConceal.removeAttribute('aria-hidden');
-    focusOnClose && focusOnClose.focus();
-
-    visibleDialogIndex = -1;
-    visibleDialog && visibleDialog.setAttribute('aria-hidden', 'true');
-    wrapper.setAttribute('aria-hidden', 'true');
-    document.body.removeEventListener('focus', hideWhenFocusLost, true);
-    document.body.removeEventListener('mousedown', hideWhenFocusLost);
-
     /**
      * Fired whenever a dialog is being closed.
-     * @event module:htz-dialog~dialog:hide
+     * Stops execution if any of its handlers calls `event.preventDefault`
+     * @event module:htz-dialog#dialog:hide-before
      * @type {Object}
      * @prop {Object} details
      * @prop {HTMLElement} details.dialog - The closed dialog wrapper
      */
-    dispatchEvent(wrapper, 'dialog:hide', {
+    const allowed = dispatchEvent(wrapper, 'dialog:hide-before', {
       dialog: wrapper,
     });
+
+    if (allowed) {
+      const visibleDialog = dialogs[visibleDialogIndex];
+      isVisible = false;
+      elemToConceal.removeAttribute('aria-hidden');
+      focusOnClose && focusOnClose.focus();
+
+      visibleDialogIndex = -1;
+      visibleDialog && visibleDialog.setAttribute('aria-hidden', 'true');
+      wrapper.setAttribute('aria-hidden', 'true');
+      document.body.removeEventListener('focus', hideWhenFocusLost, true);
+      document.body.removeEventListener('mousedown', hideWhenFocusLost);
+
+      /**
+       * Fired whenever a dialog is being closed.
+       * @event module:htz-dialog#dialog:hide-after
+       * @type {Object}
+       * @prop {Object} details
+       * @prop {HTMLElement} details.dialog - The closed dialog wrapper
+       */
+      dispatchEvent(wrapper, 'dialog:hide-after', {
+        dialog: wrapper,
+      });
+    }
   }
 
   /**
    * Go to next dialog within a wrapper
    *
-   * @callback module:htz-dialog~next
+   * @callback module:htz-dialog#next
    *
    * @return {HTMLElement} The focused dialog window.
    */
