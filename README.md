@@ -98,23 +98,32 @@ either by passing a parameter when initializing the dialog, or using the DOM API
 | `data-htz-dialog-next` | Navigates to the next related dialog on click, if one exists | By default, each dialog within the wrapper is identified by the `js-dialog` class. |
 | `data-htz-dialog-prev` | Navigates to the previous related dialog on click, if one exists | By default, each dialog within the wrapper is identified by the `js-dialog` class. |
 
-### JavaScript API
+### Instance JavaScript API
 | Method | Description |
 | --- | --- |
-| `dialog.show()` | Reveal dialog.
-| `dialog.hide()` | Hide dialog.
-| `dialog.isVisible()` | Returns a boolean indicating if the dialog is open.
-| `dialog.next()` | Move to next dialog in wrapper, if one exists.
-| `dialog.prev()` | Move to previous dialog in wrapper, if one exists.
+| `show()` | Reveal dialog.
+| `hide()` | Hide dialog.
+| `isVisible()` | Returns a boolean indicating if the dialog is open.
+| `next()` | Move to next dialog in wrapper, if one exists.
+| `prev()` | Move to previous dialog in wrapper, if one exists.
+
+### Static Methods
+| Method | Parameters | Description |
+| --- | --- | --- |
+| `instance` | `dialog`: A dialog wrapper (`HTMLElement`) or the `id` of one. | Returns an object with the API methods associated with a specific instance. |
+
 
 ### Events
 Htz-dialog emits events on state changes to easily allow hooking custom behaviour.
 
 | Event Name | Description | Properties |
 | --- | --- | --- |
-| `dialog:show` | Fired whenever a dialog is being revealed. | `details.dialog` - The wrapper element containing dialog(s) being revealed. |
-| `dialog:hide` | Fired whenever a dialog is being hidden | `details.dialog` - The wrapper element containing dialog(s) being hidden. |
-| `dialog:focus-dialog` | Fired whenever a dialog window inside the wrapper is focused. | `details.wrapper` - The wrapper element containing the focused dialog.<br />`details.dialog` - The focused dialog element. |
+| `dialog:show-before` | Fired whenever a dialog is being revealed.<br /> Stops execution if any of its handlers calls `event.preventDefault` | `details.dialog` - The wrapper element containing dialog(s) being revealed. |
+| `dialog:show-after` | Fired whenever a dialog is being revealed. | `details.dialog` - The wrapper element containing dialog(s) being revealed. |
+| `dialog:hide-before` | Fired whenever a dialog is being hidden.<br /> Stops execution if any of its handlers calls `event.preventDefault` | `details.dialog` - The wrapper element containing dialog(s) being hidden. |
+| `dialog:hide-after` | Fired whenever a dialog is being hidden | `details.dialog` - The wrapper element containing dialog(s) being hidden. |
+| `dialog:focus-dialog-before` | Fired whenever a dialog window inside the wrapper is focused.<br /> Stops execution if any of its handlers calls `event.preventDefault`  | `details.wrapper` - The wrapper element containing the focused dialog.<br />`details.dialog` - The focused dialog element. |
+| `dialog:focus-dialog-after` | Fired whenever a dialog window inside the wrapper is focused. | `details.wrapper` - The wrapper element containing the focused dialog.<br />`details.dialog` - The focused dialog element. |
 
 ### CSS
 The module comes with absolutly no styling, but it is recommended that dialogs are `display: none` by default:
