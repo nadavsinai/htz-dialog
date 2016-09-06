@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="nav">
+    <h2><a href="index.html">Home</a></h2><h3>Events</h3><ul><li><a href="module-htz-dialog.html#event:dialog:focus-dialog-after">dialog:focus-dialog-after</a></li><li><a href="module-htz-dialog.html#event:dialog:focus-dialog-before">dialog:focus-dialog-before</a></li><li><a href="module-htz-dialog.html#event:dialog:hide-after">dialog:hide-after</a></li><li><a href="module-htz-dialog.html#event:dialog:hide-before">dialog:hide-before</a></li><li><a href="module-htz-dialog.html#event:dialog:show-after">dialog:show-after</a></li><li><a href="module-htz-dialog.html#event:dialog:show-before">dialog:show-before</a></li></ul><h3>Modules</h3><ul><li><a href="module-htz-dialog.html">htz-dialog</a><ul class='methods'><li data-type='method'><a href="module-htz-dialog.html#.getInstance">getInstance</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    <!--container.tmpl-->
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>htz dialog</h1><p>Accessible dialog and modal windows with simple DOM and JavaScript APIs with 
+backed in support for navigating between related dialogs within the same wrapper.</p>
+<h3>Installation</h3><pre class="prettyprint source lang-bash"><code>jspm install github:haaretz/htz-dialog</code></pre><h3>Usage</h3><p>For convenience, dialogs can be set up and controlled using either the JavaScript or the DOM API, 
+and the use of JavaScipt is required only in initializing dialog instances:</p>
+<pre class="prettyprint source lang-js"><code>import htzDialog from 'htz-dialog';
+
+// The #foo element is not the modal itself, but its wrapper.
+htzDialog(document.getElementById('dialog'));</code></pre><p>For better accessibly, the content blocked by dialogs must be assigned an <code>aria-hidden</code> attribute
+with a value of <code>true</code> whenever the dialog is active. The is automatically taken care of by the 
+module, but does have implications on markup structure. Since the blocked element is <code>aria-hidden</code>,
+the dialog blocking it must reside NEXT to it, rather than inside it, as would often be the 
+intuitive structure.</p>
+<p>Modal-type dialogs (ones that completely block the entire UI, rather than a single element), 
+therefore, would normally need to be placed at root level, making it harder to use them when 
+templating components, as we'd usually like to manage the component and its modal in the same 
+place.</p>
+<p>The module allows us to do that by specifying a container to which the dialog should be moved to,
+either by passing a parameter when initializing the dialog, or using the DOM API.</p>
+<h3>Parameters</h3><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>HTML Attribute</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wrapper</code></td>
+<td>---</td>
+<td>---</td>
+<td>An html element containing a dialog(s)</td>
+</tr>
+<tr>
+<td><code>dialogClass</code></td>
+<td>---</td>
+<td><code>js-dialog</code></td>
+<td>The class used as a javascript hook for dialog windows within the wrapper</td>
+</tr>
+<tr>
+<td><code>elemToHide</code></td>
+<td><code>data-htz-dialog-elem-to-hide='&lt;element-id&gt;'</code></td>
+<td><code>page-wrapper</code></td>
+<td>Determines the element which will be concealed by the dialog. Should be place on the wrapper</td>
+</tr>
+<tr>
+<td><code>appendTo</code></td>
+<td><code>data-htz-dialog-append-to='&lt;element-id&gt;'</code></td>
+<td>---</td>
+<td>Determines the element to which the dialog will be appended to (if at all)</td>
+</tr>
+</tbody>
+</table>
+<h3>HTML Structure</h3><pre class="prettyprint source lang-html"><code>&lt;div id=&quot;page-wrapper&quot;>
+  &lt;!-- Some page content -->
+  &lt;section id=&quot;has-dialog&quot;>
+    &lt;div id=&quot;conceal&quot;>
+      &lt;!-- component content -->
+      &lt;button type=&quot;button&quot; data-htz-dialog-show=&quot;dialog&quot;>Open dialog&lt;/button>
+    &lt;/div>
+    &lt;div id=&quot;dialog&quot; data-htz-dialog-hide data-htz-dialog-elem-to-hide=&quot;conceal&quot; tabindex=&quot;-1&quot; aria-hidden=&quot;true&quot;>
+      &lt;div class=&quot;js-dialog__content&quot; role=&quot;dialog&quot;>
+        &lt;h3>Dialog Title&lt;/h3>
+        &lt;p>Dialog textual content with a &lt;a href=&quot;#!&quot;>link&lt;/a> and some text.&lt;/p>
+        &lt;button type=&quot;button&quot; data-htz-dialog-next>Continue to 2nd dialog&lt;/button>
+        &lt;button type=&quot;button&quot; data-htz-dialog-hide>close&lt;/button>
+      &lt;/div>
+      &lt;div class=&quot;js-dialog__content&quot; role=&quot;dialog&quot;>
+        &lt;h3>Title of second dialog&lt;/h3>
+        &lt;p>Dialog textual content with a &lt;a href=&quot;#!&quot;>link&lt;/a> and some text.&lt;/p>
+        &lt;button type=&quot;button&quot; data-htz-dialog-prev>Back to 1st dialog&lt;/button>
+        &lt;button type=&quot;button&quot; data-htz-dialog-hide>close&lt;/button>
+      &lt;/div>
+    &lt;/div>
+  &lt;/section>
+
+  &lt;section id=&quot;has-modal&quot;>
+    &lt;!-- component content -->
+    &lt;button type=&quot;button&quot; data-htz-dialog-show=&quot;modal&quot;>Open dialog&lt;/button>
+    &lt;div id=&quot;modal&quot; data-htz-append-to=&quot;modals&quot; data-htz-dialog-hide tabindex=&quot;-1&quot; aria-hidden=&quot;true&quot;>
+      &lt;div class=&quot;js-dialog__content&quot; role=&quot;dialog&quot;>
+        &lt;h1>Modal Title&lt;/h1>
+        &lt;p>Modal textual content with a &lt;a href=&quot;#!&quot;>link&lt;/a> and some text.&lt;/p>
+        &lt;button type=&quot;button&quot; data-htz-dialog-hide>close&lt;/button>
+      &lt;/div>
+    &lt;/div>
+  &lt;/section>
+
+  &lt;!-- More page content -->
+
+&lt;/div>
+
+&lt;div id=&quot;modals&quot;>
+  &lt;!-- The `modal` element will be appended here when initialized -->
+&lt;/div></code></pre><h3>DOM API</h3><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Action</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data-htz-dialog-show='dialog-id'</code></td>
+<td>Reveals the specified dialog on click</td>
+</tr>
+<tr>
+<td><code>data-htz-dialog-hide[='dialog-id']</code></td>
+<td>Hides the specified dialog on click</td>
+<td>When located inside a dialog, clicking the element will close the dialog it is placed in even without explicitly providing a a dialog's <code>id</code></td>
+</tr>
+<tr>
+<td><code>data-htz-dialog-next</code></td>
+<td>Navigates to the next related dialog on click, if one exists</td>
+<td>By default, each dialog within the wrapper is identified by the <code>js-dialog</code> class.</td>
+</tr>
+<tr>
+<td><code>data-htz-dialog-prev</code></td>
+<td>Navigates to the previous related dialog on click, if one exists</td>
+<td>By default, each dialog within the wrapper is identified by the <code>js-dialog</code> class.</td>
+</tr>
+</tbody>
+</table>
+<h3>Instance JavaScript API</h3><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>show()</code></td>
+<td>Reveal dialog.</td>
+</tr>
+<tr>
+<td><code>hide()</code></td>
+<td>Hide dialog.</td>
+</tr>
+<tr>
+<td><code>isVisible()</code></td>
+<td>Returns a boolean indicating if the dialog is open.</td>
+</tr>
+<tr>
+<td><code>next()</code></td>
+<td>Move to next dialog in wrapper, if one exists.</td>
+</tr>
+<tr>
+<td><code>prev()</code></td>
+<td>Move to previous dialog in wrapper, if one exists.</td>
+</tr>
+</tbody>
+</table>
+<h3>Static Methods</h3><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>instance</code></td>
+<td><code>dialog</code>: A dialog wrapper (<code>HTMLElement</code>) or the <code>id</code> of one.</td>
+<td>Returns an object with the API methods associated with a specific instance.</td>
+</tr>
+</tbody>
+</table>
+<h3>Events</h3><p>Htz-dialog emits events on state changes to easily allow hooking custom behaviour.</p>
+<table>
+<thead>
+<tr>
+<th>Event Name</th>
+<th>Description</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dialog:show-before</code></td>
+<td>Fired whenever a dialog is being revealed.<br /> Stops execution if any of its handlers calls <code>event.preventDefault</code></td>
+<td><code>details.dialog</code> - The wrapper element containing dialog(s) being revealed.</td>
+</tr>
+<tr>
+<td><code>dialog:show-after</code></td>
+<td>Fired whenever a dialog is being revealed.</td>
+<td><code>details.dialog</code> - The wrapper element containing dialog(s) being revealed.</td>
+</tr>
+<tr>
+<td><code>dialog:hide-before</code></td>
+<td>Fired whenever a dialog is being hidden.<br /> Stops execution if any of its handlers calls <code>event.preventDefault</code></td>
+<td><code>details.dialog</code> - The wrapper element containing dialog(s) being hidden.</td>
+</tr>
+<tr>
+<td><code>dialog:hide-after</code></td>
+<td>Fired whenever a dialog is being hidden</td>
+<td><code>details.dialog</code> - The wrapper element containing dialog(s) being hidden.</td>
+</tr>
+<tr>
+<td><code>dialog:focus-dialog-before</code></td>
+<td>Fired whenever a dialog window inside the wrapper is focused.<br /> Stops execution if any of its handlers calls <code>event.preventDefault</code></td>
+<td><code>details.wrapper</code> - The wrapper element containing the focused dialog.<br /><code>details.dialog</code> - The focused dialog element.</td>
+</tr>
+<tr>
+<td><code>dialog:focus-dialog-after</code></td>
+<td>Fired whenever a dialog window inside the wrapper is focused.</td>
+<td><code>details.wrapper</code> - The wrapper element containing the focused dialog.<br /><code>details.dialog</code> - The focused dialog element.</td>
+</tr>
+</tbody>
+</table>
+<h3>CSS</h3><p>The module comes with absolutly no styling, but it is recommended that dialogs are <code>display: none</code> by default:</p>
+<pre class="prettyprint source lang-css"><code>.dialog-wrapper-class[aria-hidden=&quot;true&quot;] {
+  display: none;
+}</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue Sep 06 2016 13:00:12 GMT+0300 (IDT) using the LOKE theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
