@@ -20,4 +20,4 @@ console.log(
 );
 /* eslint-enable no-console */
 
-export { dialogs };
+export default dialogs;

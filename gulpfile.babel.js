@@ -22,8 +22,8 @@ gulp.task('jspm', ['eslint'], (cb) => {
       sourceMaps: true,
     }
   ).then(
-    builder.
-      buildStatic(
+    builder
+    .buildStatic(
       'js/head',
       'js/dist/bodyBundle.min.js',
       {

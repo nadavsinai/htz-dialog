@@ -1,17 +1,22 @@
 module.exports = {
   /* Extend airbnb's style-guide enforcement */
   "extends": "eslint-config-airbnb/base",
+
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
   },
+
   "env": {
     "es6": true,
     "node": true,
     "browser": true
   },
+
   "rules": {
     "import/no-unresolved": 0,
+    "import/no-extraneous-dependencies": 0,
+
     "brace-style": [2, "stroustrup", { "allowSingleLine": true  }],
     /* Warn about long line */
     "max-len": [1, 100, 2],
@@ -37,5 +42,12 @@ module.exports = {
       "requireParamDescription": false,
       "requireReturnDescription": false
     }],
+    /* disallow certain syntax forms */
+    'no-restricted-syntax': [
+      2,
+      'DebuggerStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
   },
 }

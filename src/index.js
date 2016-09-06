@@ -88,7 +88,7 @@ export default function htzDialog(
   // State
   let isVisible = false;
   let visibleDialogIndex = -1;
-  let focusOnClose = undefined;
+  let focusOnClose;
 
   // Move dialog to correct DOM location
   if (moveToElem) moveToElem.appendChild(wrapper);
