@@ -1,6 +1,8 @@
 SystemJS.config({
-  paths: {
-    "htz-dialog/": "src/"
+  nodeConfig: {
+    "paths": {
+      "htz-dialog/": "src/"
+    }
   },
   devConfig: {
     "map": {
@@ -27,7 +29,7 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
-    "htz-dispatch-event": "github:haaretz/htz-dispatch-event@1.0.1",
+    "htz-dispatch-event": "github:haaretz/htz-dispatch-event@1.0.3",
     "htz-get-focusables": "github:haaretz/htz-get-focusables@1.0.2"
   },
   packages: {}
