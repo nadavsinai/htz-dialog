@@ -12,3 +12,4 @@ jspm_packages
 /sgSrc/assets
 /styleguide
 /js/dist
+.nyc_output
