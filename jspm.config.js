@@ -1,10 +1,10 @@
 SystemJS.config({
-  nodeConfig: {
-    "paths": {
-      "testUtils": "tests",
-      "jspm": "jspm_packages",
-      "htz-dialog/": "src/"
-    }
+  "paths": {
+    "npm:": "jspm_packages/npm/",
+    "github:": "jspm_packages/github/",
+    "testUtils": "tests",
+    "jspm": "jspm_packages",
+    "htz-dialog/": "src/"
   },
   devConfig: {
     "map": {

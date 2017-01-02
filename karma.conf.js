@@ -49,7 +49,7 @@ module.exports = function (config) {
       useBundles: true,
       config: "jspm.config.js",
       packages: "jspm_packages",
-      browser: 'jspm.browser.js',
+      // browser: 'jspm.browser.js',
       loadFiles: [
         'jspm_packages/system-polyfills.js',
         'tests/karmaEnv.js',

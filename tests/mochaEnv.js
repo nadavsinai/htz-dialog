@@ -1,4 +1,6 @@
+require('babel-register');
 const jsdom = require('mocha-jsdom'),
+
   chai = require('chai'),
   mocha = require('mocha'),
   sinonChai = require('sinon-chai'),
