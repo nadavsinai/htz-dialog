@@ -18,8 +18,7 @@ import getFocusables from 'htz-get-focusables';
  *
  * @private
  */
-const allInstances = [];
-
+import {getAllInstances} from './lib/dialogsState';
 /**
  * Initialize a dialog.
  *
@@ -37,14 +36,13 @@ const allInstances = [];
  *    initialized dialog.
  */
 import init from './lib/init';
-export default function htzDialog(
-  wrapper,
-  dialogClass = 'js-dialog',
-  elemToHide = document.getElementById('page-wrapper'),
-  appendTo = undefined
-) {
+import getInstance from "./lib/getInstance";
+export default function htzDialog(wrapper,
+                                  dialogClass = 'js-dialog',
+                                  elemToHide = document.getElementById('page-wrapper'),
+                                  appendTo = undefined) {
 
-  const dialogs = init(wrapper,appendTo,dialogClass);
+  const dialogs = init(wrapper, appendTo, dialogClass);
   // Ensure `wrapper` has an id attribute
   const wrapperId = wrapper.id || `dialog${Math.random()}`;
 
@@ -298,15 +296,23 @@ export default function htzDialog(
 
   // --- Event Handlers --- //
   // Close and open dialog
-  showBtns.forEach((showBtn) => { showBtn.addEventListener('click', show); });
-  hideBtns.forEach((hideBtn) => { hideBtn.addEventListener('click', hide); });
+  showBtns.forEach((showBtn) => {
+    showBtn.addEventListener('click', show);
+  });
+  hideBtns.forEach((hideBtn) => {
+    hideBtn.addEventListener('click', hide);
+  });
   wrapper.addEventListener('click', (evt) => {
     if (evt.currentTarget === evt.target) hide();
   });
 
   // Next and previous dialogs
-  nextBtns.forEach((nextBtn) => { nextBtn.addEventListener('click', next); });
-  prevBtns.forEach((prevBtn) => { prevBtn.addEventListener('click', prev); });
+  nextBtns.forEach((nextBtn) => {
+    nextBtn.addEventListener('click', next);
+  });
+  prevBtns.forEach((prevBtn) => {
+    prevBtn.addEventListener('click', prev);
+  });
 
   // Handle keyboard events
   wrapper.addEventListener('keydown', (evt) => {
@@ -347,7 +353,7 @@ export default function htzDialog(
     prev,
   };
 
-  allInstances.push(api);
+  getAllInstances().push(api);
 
   return api;
 }
@@ -362,20 +368,7 @@ export default function htzDialog(
  *
  * @return {module:htz-dialog#API} - The API to control the instance.
  */
-function getInstance(dialog) {
-  const instanceType = (
-    Object
-      .prototype
-      .toString
-      .call(dialog)
-      .match(/^\[object\s+(.*?)\]$/)[1]
-    || ''
-  ).toLowerCase();
 
-  const elem = instanceType === 'string' ? document.getElementById(dialog) : dialog;
-
-  return allInstances.filter(item => item.wrapper === elem)[0];
-}
 
 // Asign `getInstance` as a static method
 htzDialog.getInstance = getInstance;

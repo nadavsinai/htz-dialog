@@ -56,9 +56,5 @@ describe('it adds event listeners', () => {
   it('adds onKeyDown listener to the wrapper for keyCode 27 if element is visible')
 });
 
-describe('getInstance static function', () => {
-  it('checks getInstance returns instance by id');
-  it('checks getInstance returns instance by Element');
-  it('checks getInstance returns undefined for not found id/element');
-});
+
 
