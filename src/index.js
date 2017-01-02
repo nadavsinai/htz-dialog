@@ -27,6 +27,7 @@ import {getAllInstances, DialogState} from './lib/dialogsState';
  */
 import initDialogs from './lib/init';
 import getInstance from "./lib/getInstance";
+import {addEventListeners} from "./lib/addEventListeners";
 
 export default function htzDialog(wrapper,
                                   dialogClass = 'js-dialog',
@@ -36,7 +37,7 @@ export default function htzDialog(wrapper,
   // Ensure `wrapper` has an id attribute
   const dialogs = initDialogs(wrapper, appendTo, dialogClass);
   const dialogState = new DialogState(wrapper, dialogs, elemToHide);
-
+  addEventListeners(dialogState);
   // --- Process DOM API --- //
   // Determine if dialog should be moved elsewhere in the DOM
   const moveToId = wrapper.getAttribute('data-htz-dialog-append-to');

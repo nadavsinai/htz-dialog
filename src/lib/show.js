@@ -1,5 +1,4 @@
 import dispatchEvent from './htz-dispatch-event';
-import {goToDialog} from "./goToDialog";
 /**
  * Reveal a dialog window.
  *
@@ -16,8 +15,8 @@ export function show() {
    * @prop {Object} details
    * @prop {HTMLElement} details.dialog - The opened dialog wrapper
    */
-  const allowed = dispatchEvent(wrapper, 'dialog:show-before', {
-    dialog: wrapper,
+  const allowed = dispatchEvent(this.wrapper, 'dialog:show-before', {
+    dialog: this.wrapper,
   });
 
   if (allowed) {
@@ -25,7 +24,7 @@ export function show() {
     this.wrapper.removeAttribute('aria-hidden');
 
     this.focusOnClose = document.activeElement;
-    goToDialog(this, 0);
+    this.goToDialog(0);
 
     this.elemToConceal.setAttribute('aria-hidden', 'true');
 
@@ -39,8 +38,8 @@ export function show() {
      * @prop {Object} details
      * @prop {HTMLElement} details.dialog - The opened dialog wrapper
      */
-    dispatchEvent(wrapper, 'dialog:show-after', {
-      dialog: wrapper,
+    dispatchEvent(this.wrapper, 'dialog:show-after', {
+      dialog: this.wrapper,
     });
   }
 }

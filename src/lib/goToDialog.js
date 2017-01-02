@@ -26,8 +26,8 @@ export function goToDialog(goToIndex = 0) {
    * @prop {HTMLElement} details.wrapper - The wrapper element
    * @prop {HTMLElement} details.dialog - The focused dialog window
    */
-  const allowed = dispatchEvent(wrapper, 'dialog:focus-dialog-before', {
-    wrapper,
+  const allowed = dispatchEvent(this.wrapper, 'dialog:focus-dialog-before', {
+    wrapper: this.wrapper,
     dialog: goToElem,
   });
 
@@ -50,8 +50,8 @@ export function goToDialog(goToIndex = 0) {
        * @prop {HTMLElement} details.wrapper - The wrapper element
        * @prop {HTMLElement} details.dialog - The focused dialog window
        */
-      dispatchEvent(wrapper, 'dialog:focus-dialog-after', {
-        wrapper,
+      dispatchEvent(this.wrapper, 'dialog:focus-dialog-after', {
+        wrapper: this.wrapper,
         dialog: goToElem,
       });
 

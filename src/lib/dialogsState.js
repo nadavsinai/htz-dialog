@@ -15,7 +15,7 @@ import {next, prev} from './nextPrev';
 import {show} from './show';
 import {hide} from './hide';
 import {hideWhenFocusLost} from './hideWhenFocusLost';
-import {addEventListeners} from "./addEventListeners";
+
 import {goToDialog}from './goToDialog';
 export class DialogState {
   constructor(wrapper, dialogs, elemToHide) {
@@ -48,8 +48,6 @@ export class DialogState {
 
     //private
     this.hideWhenFocusLost = hideWhenFocusLost.bind(this);
-    addEventListeners(this);
-
   }
 
 }

@@ -16,7 +16,7 @@ export function hide() {
    * @prop {HTMLElement} details.dialog - The closed dialog wrapper
    */
   const allowed = dispatchEvent(this.wrapper, 'dialog:hide-before', {
-    dialog: wrapper,
+    dialog: this.wrapper,
   });
 
   if (allowed) {
@@ -38,8 +38,8 @@ export function hide() {
      * @prop {Object} details
      * @prop {HTMLElement} details.dialog - The closed dialog wrapper
      */
-    dispatchEvent(wrapper, 'dialog:hide-after', {
-      dialog: wrapper,
+    dispatchEvent(this.wrapper, 'dialog:hide-after', {
+      dialog: this.wrapper,
     });
   }
 }
