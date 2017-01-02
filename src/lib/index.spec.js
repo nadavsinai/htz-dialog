@@ -29,7 +29,7 @@ describe('test initiation', () => {
     let wrapper = document.createElement('div');
     wrapper.id = 'TestWrapper';
     let appendTo = document.createElement('div');
-    let api = htzDialog(wrapper, undefined, undefined, appendTo);
+    htzDialog(wrapper, undefined, undefined, appendTo);
     expect(wrapper.parentElement).to.equal(appendTo);
   });
 
