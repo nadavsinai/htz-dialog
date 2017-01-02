@@ -24,13 +24,12 @@ describe('test initiation', () => {
     }).to.throw(/param must be an Element/);
   });
 
-  it('moves wraper to appendTo element', () => {
+  it('moves wrapper to appendTo element', () => {
     let wrapper = document.createElement('div');
     wrapper.id = 'TestWrapper';
     let appendTo = document.createElement('div');
     let api = htzDialog(wrapper, undefined, undefined, appendTo);
-    expect(wrapper.parent).to.equal(appendTo);
-
+    expect(wrapper.parentElement).to.equal(appendTo);
   });
 
 

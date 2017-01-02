@@ -54,7 +54,7 @@ export default function htzDialog(
 
   // Determine if dialog should be moved elsewhere in the DOM
   const moveToId = wrapper.getAttribute('data-htz-dialog-append-to');
-  const moveToElem = appendTo || moveToId ? document.getElementById(moveToId) : undefined;
+  const moveToElem = appendTo || (moveToId ? document.getElementById(moveToId) : undefined);
 
   // Get all show, hide, next and prev buttons
   const showBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-show="${wrapperId}"]`));
