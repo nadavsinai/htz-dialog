@@ -20,7 +20,6 @@ import {goToDialog}from './goToDialog';
 export class DialogState {
   constructor(wrapper, dialogs, elemToHide) {
     this.dialogs = dialogs;
-    this.isVisible = false;
     this.wrapper = wrapper;
     this.wrapperId = wrapper.id || `dialog${Math.random()}`;
     this.visibleDialogIndex = -1;
@@ -40,6 +39,7 @@ export class DialogState {
      * @prop {module:htz-dialog#next} next - Move to next dialog in wrapper, if one exists
      * @prop {module:htz-dialog#prev} prev - Move to previous dialog in wrapper, if one exists
      */
+    this.isVisible = false;
     this.show = show.bind(this);
     this.hide = hide.bind(this);
     this.next = next.bind(this);
