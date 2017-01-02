@@ -120,6 +120,9 @@
     "include": [
       "src/**/*.js"
     ],
+    "exclude": [
+      "**/*.spec.js"
+    ],
     "require": [
       "babel-register"
     ],

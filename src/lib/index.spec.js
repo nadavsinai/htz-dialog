@@ -1,12 +1,6 @@
-let htzDialog;
+import htzDialog from '../index';
 describe('test initiation', () => {
-  beforeEach(function (done) {
-    jsdom();
-    System.import('htz-dialog').then(htz => {
-      htzDialog = htz.default; //wrapper, dialogClass, elemToHide, appendTo
-      done();
-    });
-  });
+  jsdom();
 
   it('is a function', () => {
     expect(htzDialog).to.be.a('function');
