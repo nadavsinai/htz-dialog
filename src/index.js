@@ -42,6 +42,8 @@ export default function htzDialog(wrapper,
                                   elemToHide = document.getElementById('page-wrapper'),
                                   appendTo = undefined) {
 
+
+
   const dialogs = init(wrapper, appendTo, dialogClass);
   // Ensure `wrapper` has an id attribute
   const wrapperId = wrapper.id || `dialog${Math.random()}`;
