@@ -1,6 +1,6 @@
 require('babel-register');
-const jsdom = require('mocha-jsdom'),
-
+const System = require('systemjs');
+const jsdom = require('jsdom-global'),
   chai = require('chai'),
   mocha = require('mocha'),
   sinonChai = require('sinon-chai'),
@@ -14,6 +14,6 @@ chai.use(chaiDirty); //should come last
 global.jsdom = jsdom;
 
 require('babel-register');
-const System = require('systemjs');
+
 global.System = System;
 require('../jspm.config.js');
