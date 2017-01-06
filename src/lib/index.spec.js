@@ -1,6 +1,14 @@
 import htzDialog from '../index';
 describe('test initiation', () => {
-  jsdom();
+  let cleanUp;
+
+  before(() => {
+    cleanUp = jsdom();
+  });
+  after(() => {
+    cleanUp();
+  });
+
 
   it('is a function', () => {
     expect(htzDialog).to.be.a('function');

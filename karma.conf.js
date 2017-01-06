@@ -1,65 +1,30 @@
 const path = require('path');
-
-let browser = 'PhantomJS';
-
-if (process.env.NODE_ENV === 'development') {
-  browser = 'Chrome'; //chrome is much better, because it shows properly line numbers
-}
-
+const webpackMerge = require('webpack-merge');
+const testConfig = require('./config/webpack/test-web.config');
+const webpackConfig = webpackMerge(testConfig, {devtool: 'inline-source-map', target: 'web'});
 // Our testing bundle is made up of our unit tests, which
 // should individually load up pieces of our application.
-const testFiles = 'src/**/*.spec.js';
-const sourceFiles = 'src/**/!(*.spec).js';
+
 
 // karma.conf.js
 module.exports = function (config) {
   config.set({
-
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '.',
-
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai-sinon', 'jspm'],
-
+    frameworks: ['mocha', 'chai-sinon'],
     // // list of files / patterns to load in the browser
     files: [
-      'node_modules/babel-polyfill/dist/polyfill.js',
-      // './test/**?(/*__tests__*)/**/*spec.browser.js',
-      //'../src/**/*__tests__*/**/*spec.server.js',
+      // './node_modules/promise-polyfill/promise.js', // important for PhantomJS
+      'tests/karmaTestsRunner.js', // loads all tests via webpack context require
     ],
     // list of files to exclude
     exclude: [],
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    // preprocessors: {
-    //   'src/!(*spec).js': ['babel', 'sourcemap', 'coverage'],
-    //   'src/**/*__tests__*/**/*spec.browser.js': ['babel'],
-    //   'test/**/*.js': ['babel'],
-    // },
-    // babelPreprocessor: {
-    //   options: {
-    //     sourceMap: 'inline'
-    //   },
-    //   sourceFileName: function(file) {
-    //     return file.originalPath;
-    //   }
-    // },
-    jspm: {
-      useBundles: true,
-      config: "jspm.config.js",
-      packages: "jspm_packages",
-      // browser: 'jspm.browser.js',
-      loadFiles: [
-        'jspm_packages/system-polyfills.js',
-        'tests/karmaEnv.js',
-        testFiles
-      ],
-      serveFiles: [sourceFiles,],
-      "paths": {
-        // '*': 'base/*.js',
-      },
-      // stripExtension: false,
+    preprocessors: {
+      'tests/karmaTestsRunner.js': ['webpack', 'sourcemap']
     },
     // // list of paths mappings
     // // can be used to map paths served by the Karma web server to /base/ content
@@ -68,16 +33,17 @@ module.exports = function (config) {
     //     "/.tmp": "/base/.tmp" // without this, karma-jspm can't load the files
     // },
     // must go along with above, suppress annoying 404 warnings.
-    proxies: {
-      '/node_modules/': '/base/node_modules/',
-      '/jspm_packages/': '/base/jspm_packages/',
-      '/src/': '/base/src/',
-      '/tests/': '/base/tests/'
-    },
+    proxies: {},
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['mocha', 'coverage'],
+    webpack: webpackConfig,// webpack configuration
+    webpackMiddleware: {
+      // webpack-dev-middleware configuration
+      // i. e.
+      stats: 'errors-only'
+    },
     // reporter options
     mochaReporter: {
       // first run will have the full output
@@ -102,17 +68,17 @@ module.exports = function (config) {
       reporters: [
         {
           type: 'html',
-          dir: '../coverage',
+          dir: 'coverage',
           subdir: normalizationBrowserName
         },
         {
           type: 'text',
-          dir: '../coverage',
+          dir: 'coverage',
           subdir: normalizationBrowserName
         },
         {
           type: 'lcov',
-          dir: '../coverage',
+          dir: 'coverage',
           subdir: normalizationBrowserName
         },
         //{
@@ -126,7 +92,7 @@ module.exports = function (config) {
         //}
       ]
     },
-    browsers: [browser],
+    browsers: ['PhantomJS'],
     //
     customLaunchers: {
       Chrome_for_Travis_CI: {
@@ -134,7 +100,6 @@ module.exports = function (config) {
         flags: ['--no-sandbox']
       }
     },
-
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 2,
     // concurrency level how many browser should be started simultaneously

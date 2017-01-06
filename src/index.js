@@ -8,7 +8,7 @@
  * @license MIT
  */
 
-import {getAllInstances, DialogState} from './lib/dialogsState';
+import { getAllInstances, DialogState } from './lib/dialogsState';
 /**
  * Initialize a dialog.
  *
@@ -27,7 +27,7 @@ import {getAllInstances, DialogState} from './lib/dialogsState';
  */
 import initDialogs from './lib/init';
 import getInstance from "./lib/getInstance";
-import {addEventListeners} from "./lib/addEventListeners";
+import { addEventListeners } from "./lib/addEventListeners";
 
 export default function htzDialog(wrapper,
                                   dialogClass = 'js-dialog',
@@ -52,3 +52,4 @@ export default function htzDialog(wrapper,
 }
 // Assign `getInstance` as a static method
 htzDialog.getInstance = getInstance;
+// module.exports = htzDialog; //using CJS so babel woudn't make it into an object with .default

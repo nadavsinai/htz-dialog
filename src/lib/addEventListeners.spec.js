@@ -1,13 +1,12 @@
-import sinon from 'sinon'
-
+import htzDialog from '../index'
 describe('addEventListeners', () => {
-  let htzDialog;
-  beforeEach(function (done) {
-    jsdom();
-    System.import('htz-dialog').then(htz => {
-      htzDialog = htz.default; //wrapper, dialogClass, elemToHide, appendTo
-      done();
-    });
+  let cleanUp;
+
+  before(() => {
+    cleanUp = jsdom();
+  });
+  after(() => {
+    cleanUp();
   });
 
   it('adds show/hide event listeners to buttons found via attributes', () => {
@@ -21,9 +20,7 @@ describe('addEventListeners', () => {
     let api = htzDialog(wrapper);
     expect(button.addEventListener).to.have.been.calledWith('click', api.show)
   });
-  it('adds next/prev event listeners to buttons found via attributes', () => {
-
-  });
+  it('adds next/prev event listeners to buttons found via attributes');
 
   it('adds onKeyDown listener to the wrapper for keyCode 27 if element is visible')
 });

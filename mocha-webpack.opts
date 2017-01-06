@@ -1,0 +1,5 @@
+--colors
+--growl
+--webpack-config config/webpack/test-node.config.js
+--require tests/mochaEnv.js
+src/**/*.spec.js

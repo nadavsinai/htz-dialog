@@ -1,6 +1,14 @@
-import {DialogState} from "./dialogsState";
+import { DialogState } from "./dialogsState";
 describe('show function', function () {
-  jsdom();
+  let cleanUp;
+
+  before(() => {
+    cleanUp = jsdom();
+  });
+  after(() => {
+    cleanUp();
+  });
+
   it('dispatched dialog:show-before event and proceeds only if event has not been prevented', (done) => {
     let wrapper = document.body;
     let dialogState = new DialogState(wrapper, [], document.body);
