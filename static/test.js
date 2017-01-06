@@ -19,4 +19,4 @@ window.addEventListener('DOMContentLoaded', () => {
   );
 
   /* eslint-enable no-unresolved-var */
-})
+});

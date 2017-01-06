@@ -11,13 +11,15 @@ const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 module.exports = function (env) {
   return webpackMerge(webpackCommon, {
     bail: true,
     devtool: 'source-map',
     output: {
-      library: 'lib',
+      library: 'htzDialog',
       libraryTarget: 'umd',
       path: path.resolve(env.root, 'dist'),
       filename: '[name].min.js',
@@ -41,6 +43,7 @@ module.exports = function (env) {
       ]
     },
     plugins: [
+      new CopyWebpackPlugin([{ from: './static/test.*', to: '', flatten: true }]),
       new HtmlWebpackPlugin({
         inject: true,
         template: path.resolve(env.root, 'static/index.html'),

@@ -8,6 +8,9 @@
  * @license MIT
  */
 
+import initDialogs from './lib/init';
+import getInstance from "./lib/getInstance";
+import { addEventListeners } from "./lib/addEventListeners";
 import { getAllInstances, DialogState } from './lib/dialogsState';
 /**
  * Initialize a dialog.
@@ -25,9 +28,6 @@ import { getAllInstances, DialogState } from './lib/dialogsState';
  * @return {module:htz-dialog#API} - An API for programatically handling the
  *    initialized dialog.
  */
-import initDialogs from './lib/init';
-import getInstance from "./lib/getInstance";
-import { addEventListeners } from "./lib/addEventListeners";
 
 export default function htzDialog(wrapper,
                                   dialogClass = 'js-dialog',
@@ -52,4 +52,4 @@ export default function htzDialog(wrapper,
 }
 // Assign `getInstance` as a static method
 htzDialog.getInstance = getInstance;
-// module.exports = htzDialog; //using CJS so babel woudn't make it into an object with .default
+module.exports = htzDialog; //using CJS so babel woudn't make it into an object with .default
