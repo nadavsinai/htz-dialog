@@ -22,7 +22,7 @@ export function getDialogs(dialogClass,wrapper) {
 export function moveWrapper(wrapper,appendTo){
   // Determine if dialog should be moved elsewhere in the DOM
   const moveToId = wrapper.getAttribute('data-htz-dialog-append-to');
-  const moveToElem = appendTo || moveToId ? document.getElementById(moveToId) : undefined;
+  const moveToElem = appendTo || (moveToId ? document.getElementById(moveToId) : undefined);
   // Move dialog to correct DOM location
   if (moveToElem) moveToElem.appendChild(wrapper);
 }
