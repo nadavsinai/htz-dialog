@@ -1,5 +1,38 @@
 {
   "presets": [
-    "es2015"
-  ]
+    [
+      "latest",
+      {
+        "es2015": {
+          "modules": false
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "helpers": false,
+        // defaults to true
+        "polyfill": false,
+        // defaults to true
+        "regenerator": false,
+        // defaults to true
+        "moduleName": "babel-runtime"
+        // defaults to "babel-runtime"
+      }
+    ],
+    "lodash",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-transform-object-rest-spread"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  },
+  "sourceMaps": "inline"
 }
