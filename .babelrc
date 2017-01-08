@@ -28,9 +28,31 @@
     "babel-plugin-transform-object-rest-spread"
   ],
   "env": {
+    "development": {
+      "plugins": [
+        [
+          "transform-es2015-modules-commonjs-simple",
+          {
+            "noMangle": true
+          }
+        ]
+      ]
+    },
     "test": {
       "plugins": [
-        "istanbul"
+        "istanbul",
+        [
+          "babel-plugin-webpack-alias",
+          {
+            "config": "./config/webpack/test-node.config.js"
+          }
+        ],
+        [
+          "transform-es2015-modules-commonjs-simple",
+          {
+            "noMangle": true
+          }
+        ]
       ]
     }
   },
