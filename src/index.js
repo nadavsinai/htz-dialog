@@ -36,34 +36,21 @@ const allInstances = [];
  * @return {module:htz-dialog#API} - An API for programatically handling the
  *    initialized dialog.
  */
-module.exports = htzDialog;
-export default function htzDialog(
-  wrapper,
-  dialogClass = 'js-dialog',
-  elemToHide = document.getElementById('page-wrapper'),
-  appendTo = undefined
-) {
-  // Fail fast if `wrapper` is `null` or `undefined`,
-  // and when `appendTo` is defined, but isn't an Element.
-  if (appendTo && !(appendTo instanceof Element)) {
-    throw new Error('The `appendTo` param must be an Element. You provided a ${typeof appendTo}');
-  }
-  if (wrapper === undefined || wrapper == null) {
-    throw new Error('the argument provided as the `wrapper` parameter must be an HTMLElement');
-  }
+import { safeChecks, getDialogs } from './lib/init';
 
+module.exports = htzDialog;
+export default function htzDialog(wrapper,
+                                  dialogClass = 'js-dialog',
+                                  elemToHide = document.getElementById('page-wrapper'),
+                                  appendTo = undefined) {
+
+  safeChecks(wrapper,appendTo);
   // Ensure `wrapper` has an id attribute
   const wrapperId = wrapper.id || `dialog${Math.random()}`;
 
   // Get all dialog windows within the dialog wrapper,
   // hide and make them programatically selectable
-  const dialogs = Array.from(wrapper.getElementsByClassName(dialogClass))
-    .map((dialog) => {
-      dialog.setAttribute('aria-hidden', 'true');
-      dialog.setAttribute('tabindex', '-1');
-
-      return dialog;
-    });
+  const dialogs = getDialogs(dialogClass);
 
 
   // --- Process DOM API --- //
@@ -316,15 +303,23 @@ export default function htzDialog(
 
   // --- Event Handlers --- //
   // Close and open dialog
-  showBtns.forEach((showBtn) => { showBtn.addEventListener('click', show); });
-  hideBtns.forEach((hideBtn) => { hideBtn.addEventListener('click', hide); });
+  showBtns.forEach((showBtn) => {
+    showBtn.addEventListener('click', show);
+  });
+  hideBtns.forEach((hideBtn) => {
+    hideBtn.addEventListener('click', hide);
+  });
   wrapper.addEventListener('click', (evt) => {
     if (evt.currentTarget === evt.target) hide();
   });
 
   // Next and previous dialogs
-  nextBtns.forEach((nextBtn) => { nextBtn.addEventListener('click', next); });
-  prevBtns.forEach((prevBtn) => { prevBtn.addEventListener('click', prev); });
+  nextBtns.forEach((nextBtn) => {
+    nextBtn.addEventListener('click', next);
+  });
+  prevBtns.forEach((prevBtn) => {
+    prevBtn.addEventListener('click', prev);
+  });
 
   // Handle keyboard events
   wrapper.addEventListener('keydown', (evt) => {
