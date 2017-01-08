@@ -24,4 +24,13 @@ describe('test initiation', () => {
 
   it('todo - will works on all dialogs defined with the dialogClass');
 
+  it('moves wrapper to appendTo element', () => {
+    let wrapper = document.createElement('div');
+    wrapper.id = 'TestWrapper';
+    let appendTo = document.createElement('div');
+    htzDialog(wrapper, undefined, undefined, appendTo);
+    expect(wrapper.parentElement).to.equal(appendTo);
+  });
+
+
 });

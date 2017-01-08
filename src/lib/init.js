@@ -10,7 +10,7 @@ export function safeChecks(wrapper, appendTo) {
   }
 }
 
-export function getDialogs(dialogClass) {
+export function getDialogs(dialogClass,wrapper) {
   return Array.from(wrapper.getElementsByClassName(dialogClass))
     .map((dialog) => {
       dialog.setAttribute('aria-hidden', 'true');
@@ -18,4 +18,11 @@ export function getDialogs(dialogClass) {
 
       return dialog;
     });
+}
+export function moveWrapper(wrapper,appendTo){
+  // Determine if dialog should be moved elsewhere in the DOM
+  const moveToId = wrapper.getAttribute('data-htz-dialog-append-to');
+  const moveToElem = appendTo || moveToId ? document.getElementById(moveToId) : undefined;
+  // Move dialog to correct DOM location
+  if (moveToElem) moveToElem.appendChild(wrapper);
 }

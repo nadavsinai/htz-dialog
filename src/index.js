@@ -36,7 +36,7 @@ const allInstances = [];
  * @return {module:htz-dialog#API} - An API for programatically handling the
  *    initialized dialog.
  */
-import { safeChecks, getDialogs } from './lib/init';
+import { safeChecks, getDialogs, moveWrapper } from './lib/init';
 
 module.exports = htzDialog;
 export default function htzDialog(wrapper,
@@ -50,17 +50,13 @@ export default function htzDialog(wrapper,
 
   // Get all dialog windows within the dialog wrapper,
   // hide and make them programatically selectable
-  const dialogs = getDialogs(dialogClass);
+  const dialogs = getDialogs(dialogClass,wrapper);
 
+  moveWrapper(wrapper,appendTo);
 
   // --- Process DOM API --- //
   // Determine element to hide
   const elemToHideId = wrapper.getAttribute('data-htz-dialog-elem-to-hide');
-
-  // Determine if dialog should be moved elsewhere in the DOM
-  const moveToId = wrapper.getAttribute('data-htz-dialog-append-to');
-  const moveToElem = appendTo || moveToId ? document.getElementById(moveToId) : undefined;
-
   // Get all show, hide, next and prev buttons
   const showBtns = Array.from(document.querySelectorAll(`[data-htz-dialog-show="${wrapperId}"]`));
   const nextBtns = Array.from(wrapper.querySelectorAll('[data-htz-dialog-next]'));
@@ -78,8 +74,7 @@ export default function htzDialog(wrapper,
   let visibleDialogIndex = -1;
   let focusOnClose;
 
-  // Move dialog to correct DOM location
-  if (moveToElem) moveToElem.appendChild(wrapper);
+
 
 
   // --- Private Functions --- //
