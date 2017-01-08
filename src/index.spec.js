@@ -8,6 +8,6 @@ describe('test initiation', () => {
   it('throws if first argument is not instance of HTMLElemnt', function () {
     expect(() => {
       htzDialog();
-    }).to.throw();
+    }).to.throw('the argument provided as the `wrapper` parameter must be an HTMLElement');
   });
 });
