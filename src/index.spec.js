@@ -15,6 +15,13 @@ describe('test initiation', () => {
     }
   });
 
+  it('will throw if appendTo argument is not an HTMLElement', function () {
+    expect(() => {
+      htzDialog(document.createElement('div'), '', '', {});
+    }).to.throw(/param must be an Element/);
+  });
 
+
+  it('todo - will works on all dialogs defined with the dialogClass');
 
 });
