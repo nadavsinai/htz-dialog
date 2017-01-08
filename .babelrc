@@ -34,5 +34,5 @@
       ]
     }
   },
-  "sourceMaps": "inline"
+  "sourceMaps": "both"
 }

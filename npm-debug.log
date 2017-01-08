@@ -1,0 +1,49 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/nadavsinai/.nvm/versions/node/v6.9.2/bin/node',
+1 verbose cli   '/home/nadavsinai/.nvm/current/lib/node_modules/npm/bin/npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'start' ]
+2 info using npm@3.10.9
+3 info using node@v6.9.2
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle htz-dialog@2.0.1~prestart: htz-dialog@2.0.1
+6 silly lifecycle htz-dialog@2.0.1~prestart: no script for prestart, continuing
+7 info lifecycle htz-dialog@2.0.1~start: htz-dialog@2.0.1
+8 verbose lifecycle htz-dialog@2.0.1~start: unsafe-perm in lifecycle true
+9 verbose lifecycle htz-dialog@2.0.1~start: PATH: /home/nadavsinai/.nvm/versions/node/v6.9.2/lib/node_modules/npm/bin/node-gyp-bin:/home/nadavsinai/sites/haaretz/htz-dialog/node_modules/.bin:/home/nadavsinai/.nvm/versions/node/v6.9.2/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+10 verbose lifecycle htz-dialog@2.0.1~start: CWD: /home/nadavsinai/sites/haaretz/htz-dialog
+11 silly lifecycle htz-dialog@2.0.1~start: Args: [ '-c',
+11 silly lifecycle   'webpack-dev-server --inline --progress --colors --contentBase=static' ]
+12 silly lifecycle htz-dialog@2.0.1~start: Returned: code: 1  signal: null
+13 info lifecycle htz-dialog@2.0.1~start: Failed to exec start script
+14 verbose stack Error: htz-dialog@2.0.1 start: `webpack-dev-server --inline --progress --colors --contentBase=static`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/home/nadavsinai/.nvm/versions/node/v6.9.2/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/home/nadavsinai/.nvm/versions/node/v6.9.2/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid htz-dialog@2.0.1
+16 verbose cwd /home/nadavsinai/sites/haaretz/htz-dialog
+17 error Linux 4.4.3-300.fc23.x86_64
+18 error argv "/home/nadavsinai/.nvm/versions/node/v6.9.2/bin/node" "/home/nadavsinai/.nvm/current/lib/node_modules/npm/bin/npm-cli.js" "run" "start"
+19 error node v6.9.2
+20 error npm  v3.10.9
+21 error code ELIFECYCLE
+22 error htz-dialog@2.0.1 start: `webpack-dev-server --inline --progress --colors --contentBase=static`
+22 error Exit status 1
+23 error Failed at the htz-dialog@2.0.1 start script 'webpack-dev-server --inline --progress --colors --contentBase=static'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the htz-dialog package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     webpack-dev-server --inline --progress --colors --contentBase=static
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs htz-dialog
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls htz-dialog
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

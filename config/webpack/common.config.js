@@ -22,6 +22,11 @@ module.exports = {
   module: {
     rules: [
       {
+        enforce:"pre",
+        test: /\.js$/,
+        loader: "source-map-loader"
+      },
+      {
         test: /\.js$/,
         // exclude: /node_modules/, //normally uncommented - but because htz-dispatch-event and htz-get-focusable are not in NPM and aren't compiled to es5 we need this
         loader: 'babel-loader'
