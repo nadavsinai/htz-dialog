@@ -12,9 +12,9 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
 #      - google-chrome // only needed if testing with Karma
-    packages:
+#    packages:
 #      - google-chrome-stable
-#env:
+env:
  - CXX=g++-4.8
  - g++-4.8
  - NPM_VERSION=3
