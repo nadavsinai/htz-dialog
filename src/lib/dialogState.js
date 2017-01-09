@@ -13,6 +13,7 @@ export class DialogState {
   hide = hide.bind(this);
   next = this.next.bind(this);
   prev = this.prev.bind(this);
+  hideWhenFocusLost = this.hideWhenFocusLost.bind(this);
 
   constructor(wrapper, dialogs) {
     // Ensure `wrapper` has an id attribute
