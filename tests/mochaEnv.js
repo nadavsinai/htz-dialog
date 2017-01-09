@@ -1,4 +1,9 @@
 require('source-map-support/register');
+require("babel-register")({
+  // This will override `node_modules` ignoring - you can alternatively pass
+  // an array of strings to be explicitly matched or a regex / glob
+  ignore: /node_modules\/(?!htz.*).*/
+});
 global.jsdom = require('jsdom-global');
 const chai = require('chai'),
   sinonChai = require('sinon-chai'),
@@ -9,4 +14,3 @@ global.sinon = require('sinon');
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 chai.use(chaiDirty); //should come last
-
