@@ -11,10 +11,10 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - google-chrome
+#      - google-chrome // only needed if testing with Karma
     packages:
-      - google-chrome-stable
-env:
+#      - google-chrome-stable
+#env:
  - CXX=g++-4.8
  - g++-4.8
  - NPM_VERSION=3
@@ -23,9 +23,6 @@ before_install:
   - "nvm use $TRAVIS_NODE_VERSION"
 
 install:
-  # Install version of npm that we are locked against
-  - npm install -g npm@3
-  # - npm config set registry http://23.251.144.68
   # Disable the spinner, it looks bad on Travis
   - npm config set spin false
   - sudo apt-get update -qq
@@ -43,7 +40,7 @@ notifications:
 
 script:
   - npm test
-  - npm coverage:report
+  - npm run coverage:report
 after_script:
 # Upload to coveralls, but don't _fail_ if coveralls is down.
 #  - cat coverage/lcov.info | node_modules/.bin/coveralls || echo "Coveralls upload failed"
