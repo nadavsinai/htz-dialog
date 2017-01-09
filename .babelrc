@@ -41,6 +41,7 @@
     "test": {
       "plugins": [
         "istanbul",
+        "rewire",
         [
           "babel-plugin-webpack-alias",
           {

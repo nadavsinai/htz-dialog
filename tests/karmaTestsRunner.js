@@ -1,7 +1,5 @@
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
-import 'babel-polyfill';
-
 window.jsdom = function () {
   return Function.prototype;
 };

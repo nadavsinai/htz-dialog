@@ -16,6 +16,7 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai-sinon'],
     // // list of files / patterns to load in the browser
     files: [
+      './node_modules/babel-polyfill/dist/polyfill.min.js',
       // './node_modules/promise-polyfill/promise.js', // important for PhantomJS
       'tests/karmaTestsRunner.js', // loads all tests via webpack context require
     ],
