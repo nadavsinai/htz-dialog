@@ -16,14 +16,14 @@ describe('show function', function () {
   it('keeps track of focuses element on focusOnClose property on the dialogState ');
   it('calls goToDialog(0)'); // either do this or continue the testing inwards - sometimes not practical...
   it('sets aria-hidden on elemToConceal');
-  it('adds focus eventListener on the document.body calling hideWhenFocusLost', () => {
+  it('adds an eventListener on the document.body calling hideWhenFocusLost on focus ', () => {
+    let simulant = require('simulant');
     let myDispatch = sinon.stub().returns(true);
     __RewireAPI__.__Rewire__('dispatchEvent', myDispatch);
-    let dialogDummy = { wrapper: { removeAttribute: Function.prototype }, goToDialog: sinon.spy(), hideWhenFocusLost: sinon.spy() };
-    let addEventListenerStub = sinon.stub(document.body, 'addEventListener');
+    let dialogDummy = { wrapper: { removeAttribute: Function.prototype }, goToDialog: sinon.stub(), hideWhenFocusLost: sinon.spy() };
     show.call(dialogDummy);
-    expect(addEventListenerStub).to.have.been.calledWith('focus', dialogDummy.hideWhenFocusLost, true);
-    addEventListenerStub.restore(); // important for karma
+    simulant.fire(document.body, 'focus');
+    expect(dialogDummy.hideWhenFocusLost).to.have.been.called();
   });
   it('adds mousedown eventListener on the document.body calling hideWhenFocusLost');
   it('calls dispatchEvent on the wrapper with type `dialog:show-after` and dialog wrapper as data');
