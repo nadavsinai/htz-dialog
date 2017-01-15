@@ -7,18 +7,17 @@ const proxyRules = require('./proxy/rules');
 // webpack plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
-
+const pkgName = require('../getPackageName');
 module.exports = function (env) {
   return webpackMerge(webpackCommon, {
     devtool: 'inline-source-map',
     output: {
+      library: pkgName.camelCase,
+      libraryTarget: 'this',
       path: path.resolve(env.root, 'dist'),
-      library:'htzDialog',
-      libraryTarget:'this',
-      filename: '[name].js',
+      filename: '[name].min.js',
       sourceMapFilename: '[name].map',
-      chunkFilename: '[name]-[id]-chunk.js',
-      publicPath: '/'
+      chunkFilename: '[name]-[id]-chunk.js'
     },
     module: {
       rules: [

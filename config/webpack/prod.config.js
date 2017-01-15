@@ -26,7 +26,7 @@ module.exports = function (env) {
       filename: '[name].min.js',
       sourceMapFilename: '[name].map',
       umdNamedDefine: true,
-      chunkFilename: '[name]-[id].js'
+      chunkFilename: '[name]-[id]-chunk.js',
     },
     module: {
       rules: [
