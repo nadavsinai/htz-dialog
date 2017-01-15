@@ -15,3 +15,6 @@ jspm_packages
 /coverage
 /.tmp
 .nyc_output
+
+# Ignore IDE files
+/.idea
