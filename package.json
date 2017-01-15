@@ -15,7 +15,7 @@
     "jsdoc": "config/jsdoc.sh",
     "lint": "eslint ./src/**/*.js",
     "prepublish": "npm run build",
-    "serve": "browser-sync start -directory ./dist --server ",
+    "serve": "browser-sync start --s dist ",
     "start": "webpack-dev-server --inline --progress --colors --contentBase=static",
     "tdd:browser": "npm run test:browser -- --auto-watch --no-single-run --browsers Chrome",
     "test:browser": "karma start",
@@ -102,10 +102,11 @@
     "webpack": "^2.2.0-rc.3",
     "webpack-dev-server": "^2.2.0-rc.0",
     "webpack-merge": "^2.0.0",
-    "webpack-node-externals": "^1.5.4"
+    "webpack-node-externals": "^1.5.4",
+    "babel-plugin-rewire": "^1.0.0"
   },
   "dependencies": {
-    "babel-plugin-rewire": "^1.0.0",
+    "babel-runtime": "^6.20.0",
     "htz-dispatch-event": "https://github.com/Haaretz/htz-dispatch-event/archive/1.0.3.tar.gz",
     "htz-get-focusables": "https://github.com/Haaretz/htz-get-focusables/archive/v1.0.2.tar.gz"
   },
@@ -114,7 +115,9 @@
       "src/**/*.js"
     ],
     "exclude": [
-      "**/*.spec.js"
+      "node_modules",
+      ".tmp",
+      "src/**/*.spec.js"
     ],
     "require": [
       "babel-register"
