@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "update": "ncu",
-    "build": "NODE_ENV=production webpack -p --progress --display-error-details --color",
+    "build": "cross-env NODE_ENV=production webpack -p --progress --display-error-details --color",
     "gh-pages": "config/gh-pages.sh",
     "init": "git init && npm i",
     "jsdoc": "config/jsdoc.sh",
@@ -19,7 +19,7 @@
     "start": "webpack-dev-server --inline --progress --colors --contentBase=static",
     "tdd:browser": "npm run test:browser -- --auto-watch --no-single-run --browsers Chrome",
     "test:browser": "karma start",
-    "test": "NODE_ENV=test nyc mocha-webpack",
+    "test": "cross-env NODE_ENV=test nyc mocha-webpack",
     "tdd": "npm test -- --watch",
     "coverage:report": "nyc report --reporter=html"
   },
@@ -45,6 +45,7 @@
     "chai-as-promised": "^6.0.0",
     "clean-webpack-plugin": "^0.1.14",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
     "dirty-chai": "^1.2.2",
     "eslint": "^3.12.2",
@@ -91,6 +92,7 @@
     "postcss-loader": "^1.2.1",
     "promise-polyfill": "^6.0.2",
     "sass-loader": "^4.1.1",
+    "simulant": "^0.2.2",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "source-map-loader": "^0.1.5",
@@ -100,8 +102,7 @@
     "webpack": "^2.2.0-rc.3",
     "webpack-dev-server": "^2.2.0-rc.0",
     "webpack-merge": "^2.0.0",
-    "webpack-node-externals": "^1.5.4",
-    "simulant": "^0.2.2"
+    "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
     "babel-plugin-rewire": "^1.0.0",
