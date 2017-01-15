@@ -11,7 +11,7 @@ describe('it adds event listeners', () => {
     addEventListners(dialogState);
     button.click();
     expect(dialogState.show).to.have.been.called();
-    wrapper.remove();
+    wrapper.remove(); // notice the cleanup
   });
   it('adds next/prev event listeners to buttons found via attributes');
 

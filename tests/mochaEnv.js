@@ -4,7 +4,9 @@ require("babel-register")({
   // an array of strings to be explicitly matched or a regex / glob
   ignore: /node_modules\/(?!htz.*).*/
 });
-global.jsdom = require('jsdom-global');
+require('jsdom-global')();
+
+
 const chai = require('chai'),
   sinonChai = require('sinon-chai'),
   chaiDirty = require('dirty-chai'),
