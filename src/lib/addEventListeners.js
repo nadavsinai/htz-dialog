@@ -36,7 +36,7 @@ export default function addEventListners(dialogState) {
       }
 
       // `Tab`
-      else if (key === 9) keepFocus(wrapper, evt);
+      else if (key === 9) keepFocus(dialogState.wrapper, evt);
     }
   });
 }
