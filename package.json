@@ -7,8 +7,8 @@
     "url": "https://github.com/haaretz/htz-dialog"
   },
   "license": "MIT",
-  "module":"src/index.js",
-  "main":"dist/htzDialog.min.js",
+  "module": "src/index.js",
+  "main": "dist/htzDialog.min.js",
   "scripts": {
     "update": "ncu",
     "build": "cross-env NODE_ENV=production webpack -p --progress --display-error-details --color",
@@ -33,6 +33,7 @@
     "babel-loader": "^6.2.10",
     "babel-plugin-istanbul": "^3.1.2",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-rewire": "^1.0.0",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-es2015-modules-commonjs-simple": "^6.7.4",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
@@ -51,7 +52,7 @@
     "css-loader": "^0.26.1",
     "dirty-chai": "^1.2.2",
     "eslint": "^3.12.2",
-    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-airbnb": "^14.0.0",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-mocha": "^4.8.0",
@@ -80,7 +81,7 @@
     "karma-sauce-launcher": "^1.1.0",
     "karma-sinon-chai": "^1.2.4",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.8.1",
+    "karma-webpack": "^2.0.1",
     "lodash-webpack-plugin": "^0.10.6",
     "loke-jsdoc-theme": "^2.1.0",
     "mkdirp": "^0.5.1",
@@ -104,8 +105,7 @@
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0",
     "webpack-merge": "^2.0.0",
-    "webpack-node-externals": "^1.5.4",
-    "babel-plugin-rewire": "^1.0.0"
+    "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
     "babel-runtime": "^6.20.0",
