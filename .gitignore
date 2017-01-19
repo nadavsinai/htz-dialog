@@ -11,4 +11,7 @@ jspm_packages
 /css
 /sgSrc/assets
 /styleguide
-/js/dist
+/dist
+/coverage
+/.tmp
+.nyc_output

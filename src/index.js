@@ -36,6 +36,7 @@ const allInstances = [];
  * @return {module:htz-dialog#API} - An API for programatically handling the
  *    initialized dialog.
  */
+module.exports = htzDialog;
 export default function htzDialog(
   wrapper,
   dialogClass = 'js-dialog',
