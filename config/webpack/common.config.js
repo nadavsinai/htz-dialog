@@ -1,7 +1,9 @@
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const pkg = require('../getPackageName');
+
 module.exports = {
   entry: {
-    'lib': [
+    [pkg.camelCase]: [
       './src/index.js'
     ]
   },
