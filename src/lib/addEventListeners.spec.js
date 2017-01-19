@@ -1,10 +1,9 @@
-// import  simulant from 'simulant';
+import  simulant from 'simulant';
 import  addEventListeners, { __RewireAPI__ } from './addEventListeners';
 
 describe('Event handling', () => {
   describe('Click events', () => {
     it('executes show() on a button found via attribute inside the wrapper is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       const button = document.createElement('button');
@@ -16,12 +15,13 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       button.click();
       expect(dialogState.show).to.have.been.called();
+
+      // Cleanup
       wrapper.remove();
       button.remove();
     });
 
     it('executes hide() on a button found via attribute inside the wrapper is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       const button = document.createElement('button');
@@ -33,11 +33,12 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       button.click();
       expect(dialogState.hide).to.have.been.called();
+
+      // Cleanup
       wrapper.remove();
     });
 
     it('executes hide() on a button found via attribute outside the wrapper is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       const button = document.createElement('button');
@@ -49,12 +50,13 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       button.click();
       expect(dialogState.hide).to.have.been.called();
+
+      // Cleanup
       wrapper.remove();
       button.remove();
     });
 
     it('Executes hide() when the wrapper is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       const dialogState = { wrapperId: wrapper.id, wrapper, hide: sinon.spy() };
       document.body.appendChild(wrapper);
@@ -62,11 +64,12 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       wrapper.click();
       expect(dialogState.hide).to.have.been.called();
+
+      // Cleanup
       wrapper.remove();
     });
 
     it('Does not execute hide() when an element inside the wrapper is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       const dialog = document.createElement('div');
       const dialogState = { wrapperId: wrapper.id, wrapper, hide: sinon.spy() };
@@ -77,11 +80,12 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       dialog.click();
       expect(dialogState.hide).to.not.have.been.called();
+
+      // Cleanup
       wrapper.remove();
     });
 
     it('executes next() when a next button found via attribute is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       const button = document.createElement('button');
@@ -93,11 +97,12 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       button.click();
       expect(dialogState.next).to.have.been.called();
+
+      // Cleanup
       wrapper.remove();
     });
 
     it('executes prev() when a prev button found via attribute is clicked', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       const button = document.createElement('button');
@@ -109,15 +114,14 @@ describe('Event handling', () => {
       addEventListeners(dialogState);
       button.click();
       expect(dialogState.prev).to.have.been.called();
+
+      // Cleanup
       wrapper.remove();
     });
   });
 
   describe('Keydown events on the wrapper', () => {
     it('adds keydown listener to the wrapper', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
-      const simulant = require('simulant');
-
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       wrapper.addEventListener = sinon.spy();
@@ -134,12 +138,12 @@ describe('Event handling', () => {
       // This is a little brittle. Is there no better,
       // less execution-order dependent way to do this?
       expect(wrapper.addEventListener.getCall(1).args[0]).to.equal('keydown');
+
+      // Cleanup
+      wrapper.remove();
     });
 
     it('executes hide() on keydown when keyCode is 27 & wrapper is visible', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
-      const simulant = require('simulant');
-
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
 
@@ -151,12 +155,12 @@ describe('Event handling', () => {
       simulant.fire(wrapper, 'keydown', { keyCode: 27 });
 
       expect(dialogState.hide).to.have.been.called();
+
+      // Cleanup
+      wrapper.remove();
     });
 
     it('Does not execute hide() on keydown when keyCode is 27 & wrapper is *NOT* visible', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
-      const simulant = require('simulant');
-
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
 
@@ -168,12 +172,12 @@ describe('Event handling', () => {
       simulant.fire(wrapper, 'keydown', { keyCode: 27 });
 
       expect(dialogState.hide).to.not.have.been.called();
+
+      // Cleanup
+      wrapper.remove();
     });
 
     it('executes keepFocus on keydown when keyCode is 9 & wrapper is visible', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this
-      const simulant = require('simulant');
-
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
 
@@ -188,12 +192,12 @@ describe('Event handling', () => {
       simulant.fire(wrapper, 'keydown', { keyCode: 9 });
 
       expect(keepFocusSpy).to.have.been.called();
+
+      // Cleanup
+      wrapper.remove();
     });
 
     it('Does not execute keepFocus on keydown when keyCode is 9 & wrapper is *NOT* visible', () => {
-      jsdom(); // I get a 'ReferenceError: document is not defined' error thrown without this.
-      const simulant = require('simulant');
-
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
 
@@ -207,6 +211,9 @@ describe('Event handling', () => {
       simulant.fire(wrapper, 'keydown', { keyCode: 9 });
 
       expect(keepFocusSpy).to.not.have.been.called();
+
+      // Cleanup
+      wrapper.remove();
     });
   });
 });
