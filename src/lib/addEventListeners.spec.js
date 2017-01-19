@@ -1,7 +1,9 @@
-import  simulant from 'simulant';
-import  addEventListeners, { __RewireAPI__ } from './addEventListeners';
+import simulant from 'simulant';
+import addEventListeners, { __RewireAPI__ } from './addEventListeners';
 
 describe('Event handling', () => {
+  const rewire = __RewireAPI__.__Rewire__; // eslint-disable-line no-underscore-dangle
+
   describe('Click events', () => {
     it('executes show() on a button found via attribute inside the wrapper is clicked', () => {
       const wrapper = document.createElement('div');
@@ -186,7 +188,7 @@ describe('Event handling', () => {
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true };
       const keepFocusSpy = sinon.spy();
 
-      __RewireAPI__.__Rewire__('keepFocus', keepFocusSpy);
+      rewire('keepFocus', keepFocusSpy);
 
       addEventListeners(dialogState);
       simulant.fire(wrapper, 'keydown', { keyCode: 9 });
@@ -205,7 +207,7 @@ describe('Event handling', () => {
 
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false };
       const keepFocusSpy = sinon.spy();
-      __RewireAPI__.__Rewire__('keepFocus', keepFocusSpy);
+      rewire('keepFocus', keepFocusSpy);
 
       addEventListeners(dialogState);
       simulant.fire(wrapper, 'keydown', { keyCode: 9 });
