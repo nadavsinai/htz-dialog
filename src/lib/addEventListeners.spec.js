@@ -5,15 +5,23 @@ describe('Event handling', () => {
   const rewire = __RewireAPI__.__Rewire__; // eslint-disable-line no-underscore-dangle
 
   describe('Click events', () => {
-    it('executes show() on a button found via attribute inside the wrapper is clicked', () => {
+    function prep(btnAttr, btnAttrValue = '') {
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       const button = document.createElement('button');
-      button.setAttribute('data-htz-dialog-show', 'test');
+      button.setAttribute(btnAttr, btnAttrValue);
+
+      return [wrapper, button]
+    }
+
+    it('executes show() on a button found via attribute inside the wrapper is clicked', () => {
+      const [ wrapper, button ] = prep('data-htz-dialog-show', 'test');
+
       document.body.appendChild(wrapper);
       document.body.appendChild(button);
 
       const dialogState = { wrapperId: wrapper.id, wrapper, show: sinon.spy() };
+
       addEventListeners(dialogState);
       button.click();
       expect(dialogState.show).to.have.been.called();
@@ -24,10 +32,8 @@ describe('Event handling', () => {
     });
 
     it('executes hide() on a button found via attribute inside the wrapper is clicked', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-      const button = document.createElement('button');
-      button.setAttribute('data-htz-dialog-hide', '');
+      const [ wrapper, button ] = prep('data-htz-dialog-hide');
+
       wrapper.appendChild(button);
       document.body.appendChild(wrapper);
 
@@ -41,10 +47,8 @@ describe('Event handling', () => {
     });
 
     it('executes hide() on a button found via attribute outside the wrapper is clicked', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-      const button = document.createElement('button');
-      button.setAttribute('data-htz-dialog-hide', 'test');
+      const [ wrapper, button ] = prep('data-htz-dialog-hide', 'test');
+      
       const dialogState = { wrapperId: wrapper.id, wrapper, hide: sinon.spy() };
       document.body.appendChild(wrapper);
       document.body.appendChild(button);
@@ -88,9 +92,7 @@ describe('Event handling', () => {
     });
 
     it('executes next() when a next button found via attribute is clicked', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-      const button = document.createElement('button');
+      const [ wrapper, button ] = prep('data-htz-dialog-next');
       button.setAttribute('data-htz-dialog-next', '');
       wrapper.appendChild(button);
       document.body.appendChild(wrapper);
@@ -105,10 +107,7 @@ describe('Event handling', () => {
     });
 
     it('executes prev() when a prev button found via attribute is clicked', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-      const button = document.createElement('button');
-      button.setAttribute('data-htz-dialog-prev', '');
+      const [ wrapper, button ] = prep('data-htz-dialog-prev');
       wrapper.appendChild(button);
       document.body.appendChild(wrapper);
 
@@ -123,12 +122,16 @@ describe('Event handling', () => {
   });
 
   describe('Keydown events on the wrapper', () => {
-    it('executes hide() on keydown when keyCode is 27 & wrapper is visible', () => {
+    function prep(id = 'test') {
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
-
       document.body.appendChild(wrapper);
+      
+      return wrapper;
+    }
 
+    it('executes hide() on keydown when keyCode is 27 & wrapper is visible', () => {
+      const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true, hide: sinon.spy() };
 
       addEventListeners(dialogState);
@@ -141,11 +144,7 @@ describe('Event handling', () => {
     });
 
     it('Does not execute hide() on keydown when keyCode is 27 & wrapper is *NOT* visible', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-
-      document.body.appendChild(wrapper);
-
+      const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false, hide: sinon.spy() };
 
       addEventListeners(dialogState);
@@ -158,11 +157,7 @@ describe('Event handling', () => {
     });
 
     it('executes keepFocus on keydown when keyCode is 9 & wrapper is visible', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-
-      document.body.appendChild(wrapper);
-
+      const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true };
       const keepFocusSpy = sinon.spy();
 
@@ -178,11 +173,7 @@ describe('Event handling', () => {
     });
 
     it('Does not execute keepFocus on keydown when keyCode is 9 & wrapper is *NOT* visible', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-
-      document.body.appendChild(wrapper);
-
+      const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false };
       const keepFocusSpy = sinon.spy();
       rewire('keepFocus', keepFocusSpy);
