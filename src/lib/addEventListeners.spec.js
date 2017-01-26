@@ -48,8 +48,8 @@ describe('Event handling', () => {
 
     it('executes hide() on a button found via attribute outside the wrapper is clicked', () => {
       const [ wrapper, button ] = prep('data-htz-dialog-hide', 'test');
-      
       const dialogState = { wrapperId: wrapper.id, wrapper, hide: sinon.spy() };
+
       document.body.appendChild(wrapper);
       document.body.appendChild(button);
 
@@ -126,11 +126,11 @@ describe('Event handling', () => {
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
       document.body.appendChild(wrapper);
-      
+
       return wrapper;
     }
 
-    it('executes hide() on keydown when keyCode is 27 & wrapper is visible', () => {
+    it('hides open dialogs when "Esc" is clicked', () => {
       const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true, hide: sinon.spy() };
 
@@ -143,7 +143,7 @@ describe('Event handling', () => {
       wrapper.remove();
     });
 
-    it('Does not execute hide() on keydown when keyCode is 27 & wrapper is *NOT* visible', () => {
+    it('Does not execute hide() when "Esc" is clicked wrapper is *NOT* visible', () => {
       const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false, hide: sinon.spy() };
 
@@ -156,7 +156,7 @@ describe('Event handling', () => {
       wrapper.remove();
     });
 
-    it('executes keepFocus on keydown when keyCode is 9 & wrapper is visible', () => {
+    it('executes keepFocus "Tab" is clicked and wrapper is visible', () => {
       const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true };
       const keepFocusSpy = sinon.spy();
@@ -172,7 +172,7 @@ describe('Event handling', () => {
       wrapper.remove();
     });
 
-    it('Does not execute keepFocus on keydown when keyCode is 9 & wrapper is *NOT* visible', () => {
+    it('Does not execute keepFocus "Tab" is clicked and wrapper is *NOT* visible', () => {
       const wrapper = prep();
       const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false };
       const keepFocusSpy = sinon.spy();
