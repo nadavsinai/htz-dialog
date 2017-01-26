@@ -123,28 +123,6 @@ describe('Event handling', () => {
   });
 
   describe('Keydown events on the wrapper', () => {
-    it('adds keydown listener to the wrapper', () => {
-      const wrapper = document.createElement('div');
-      wrapper.id = 'test';
-      wrapper.addEventListener = sinon.spy();
-
-      document.body.appendChild(wrapper);
-
-      const dialogState = { wrapperId: wrapper.id, wrapper };
-
-      addEventListeners(dialogState);
-      simulant.fire(wrapper, 'keydown');
-
-      // First call adds the 'hide' 'click' handler,
-      // second call is the relevant one.
-      // This is a little brittle. Is there no better,
-      // less execution-order dependent way to do this?
-      expect(wrapper.addEventListener.getCall(1).args[0]).to.equal('keydown');
-
-      // Cleanup
-      wrapper.remove();
-    });
-
     it('executes hide() on keydown when keyCode is 27 & wrapper is visible', () => {
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
