@@ -122,69 +122,64 @@ describe('Event handling', () => {
   });
 
   describe('Keydown events on the wrapper', () => {
-    function prep(id = 'test') {
+    function prep(isVisible, keyCode) {
+      const hideSpy = sinon.spy();
+      const keepFocusSpy = sinon.spy();
+      rewire('keepFocus', keepFocusSpy);
+
       const wrapper = document.createElement('div');
       wrapper.id = 'test';
-      document.body.appendChild(wrapper);
+      const dialogState = { wrapperId: wrapper.id, wrapper, isVisible, hide: hideSpy };
 
-      return wrapper;
+      document.body.appendChild(wrapper);
+      addEventListeners(dialogState);
+      simulant.fire(wrapper, 'keydown', { keyCode });
+
+      return {
+        wrapper,
+        dialogState,
+        keepFocusSpy,
+        cleanup: () => {
+          wrapper.remove();
+          __RewireAPI__.__ResetDependency__('keepFocus');
+        },
+      };
     }
 
-    it('hides open dialogs when "Esc" is clicked', () => {
-      const wrapper = prep();
-      const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true, hide: sinon.spy() };
-
-      addEventListeners(dialogState);
-      simulant.fire(wrapper, 'keydown', { keyCode: 27 });
+    it('hides open dialogs when "Esc" is clicked (This doesn\'t work)', () => {
+      const { dialogState, cleanup } = prep(true, 27);
 
       expect(dialogState.hide).to.have.been.called();
 
       // Cleanup
-      wrapper.remove();
+      cleanup();
     });
 
     it('Does not execute hide() when "Esc" is clicked wrapper is *NOT* visible', () => {
-      const wrapper = prep();
-      const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false, hide: sinon.spy() };
-
-      addEventListeners(dialogState);
-      simulant.fire(wrapper, 'keydown', { keyCode: 27 });
+      const { dialogState, cleanup } = prep(false, 27);
 
       expect(dialogState.hide).to.not.have.been.called();
 
       // Cleanup
-      wrapper.remove();
+      cleanup();
     });
 
     it('executes keepFocus "Tab" is clicked and wrapper is visible', () => {
-      const wrapper = prep();
-      const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: true };
-      const keepFocusSpy = sinon.spy();
-
-      rewire('keepFocus', keepFocusSpy);
-
-      addEventListeners(dialogState);
-      simulant.fire(wrapper, 'keydown', { keyCode: 9 });
+      const { keepFocusSpy, cleanup } = prep(true, 9);
 
       expect(keepFocusSpy).to.have.been.called();
 
       // Cleanup
-      wrapper.remove();
+      cleanup();
     });
 
     it('Does not execute keepFocus "Tab" is clicked and wrapper is *NOT* visible', () => {
-      const wrapper = prep();
-      const dialogState = { wrapperId: wrapper.id, wrapper, isVisible: false };
-      const keepFocusSpy = sinon.spy();
-      rewire('keepFocus', keepFocusSpy);
-
-      addEventListeners(dialogState);
-      simulant.fire(wrapper, 'keydown', { keyCode: 9 });
+      const { keepFocusSpy, cleanup } = prep(false, 9);
 
       expect(keepFocusSpy).to.not.have.been.called();
 
       // Cleanup
-      wrapper.remove();
+      cleanup();
     });
   });
 });
