@@ -11,11 +11,11 @@ describe('Event handling', () => {
       const button = document.createElement('button');
       button.setAttribute(btnAttr, btnAttrValue);
 
-      return [wrapper, button]
+      return [wrapper, button];
     }
 
     it('executes show() on a button found via attribute inside the wrapper is clicked', () => {
-      const [ wrapper, button ] = prep('data-htz-dialog-show', 'test');
+      const [wrapper, button] = prep('data-htz-dialog-show', 'test');
 
       document.body.appendChild(wrapper);
       document.body.appendChild(button);
@@ -32,7 +32,7 @@ describe('Event handling', () => {
     });
 
     it('executes hide() on a button found via attribute inside the wrapper is clicked', () => {
-      const [ wrapper, button ] = prep('data-htz-dialog-hide');
+      const [wrapper, button] = prep('data-htz-dialog-hide');
 
       wrapper.appendChild(button);
       document.body.appendChild(wrapper);
@@ -47,7 +47,7 @@ describe('Event handling', () => {
     });
 
     it('executes hide() on a button found via attribute outside the wrapper is clicked', () => {
-      const [ wrapper, button ] = prep('data-htz-dialog-hide', 'test');
+      const [wrapper, button] = prep('data-htz-dialog-hide', 'test');
       const dialogState = { wrapperId: wrapper.id, wrapper, hide: sinon.spy() };
 
       document.body.appendChild(wrapper);
@@ -92,7 +92,7 @@ describe('Event handling', () => {
     });
 
     it('executes next() when a next button found via attribute is clicked', () => {
-      const [ wrapper, button ] = prep('data-htz-dialog-next');
+      const [wrapper, button] = prep('data-htz-dialog-next');
       button.setAttribute('data-htz-dialog-next', '');
       wrapper.appendChild(button);
       document.body.appendChild(wrapper);
@@ -107,7 +107,7 @@ describe('Event handling', () => {
     });
 
     it('executes prev() when a prev button found via attribute is clicked', () => {
-      const [ wrapper, button ] = prep('data-htz-dialog-prev');
+      const [wrapper, button] = prep('data-htz-dialog-prev');
       wrapper.appendChild(button);
       document.body.appendChild(wrapper);
 
@@ -141,7 +141,8 @@ describe('Event handling', () => {
         keepFocusSpy,
         cleanup: () => {
           wrapper.remove();
-          __RewireAPI__.__ResetDependency__('keepFocus');
+          __RewireAPI__ // eslint-disable-line no-underscore-dangle
+            .__ResetDependency__('keepFocus'); // eslint-disable-line no-underscore-dangle
         },
       };
     }
