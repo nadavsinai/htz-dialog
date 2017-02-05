@@ -2,163 +2,154 @@
 /* eslint-disable noinspection, prefer-arrow-callback, func-names, no-underscore-dangle */
 import { show, hide, __RewireAPI__ } from './show-hide';
 
-const jsdom = require('jsdom-global');
-
 describe('show function', function () {
-  let addEventListenerStub;
-  let myDispatch;
-  let dialogDummy;
-  let randomElementThatWasActive;
-  let cleanup;
-
-  beforeEach(function () {
-    cleanup = jsdom();
-  });
-
-  afterEach(function () {
-    cleanup();
-  });
-
   it('should have access to document global', function () {
     expect(document).to.not.be.undefined();
   });
   it('calls dispatchEvent on the wrapper with type `dialog:show-before` and dialog wrapper as data',
     function () {
-      setup({ dispatchRetValue: false });
+      const { myDispatch, dialogDummy, destroy } = setup({ dispatchRetValue: false });
       show.call(dialogDummy);
       expect(myDispatch).to.have.been.calledOnce();
       expect(myDispatch).to.have.been.calledWith(
         dialogDummy.wrapper, 'dialog:show-before', { dialog: dialogDummy.wrapper });
+      destroy();
     });
   it('cancels show (does not call show-after or goToDialog ) if event was prevented', function () {
-    setup({ dispatchRetValue: false });
+    const { myDispatch, dialogDummy, destroy } = setup({ dispatchRetValue: false });
+    show.call(dialogDummy);
     expect(dialogDummy.goToDialog).to.have.been.not.called();
-    expect(myDispatch).to.not.have.been.calledWith(
+    expect(myDispatch).to.have.been.calledWith(
       dialogDummy.wrapper, 'dialog:show-before', { dialog: dialogDummy.wrapper });
+    expect(myDispatch).to.not.have.been.calledWith(
+      dialogDummy.wrapper, 'dialog:show-after', { dialog: dialogDummy.wrapper });
+    destroy();
   });
   it('sets state to visible', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
     show.call(dialogDummy);
     expect(dialogDummy.isVisible).to.be.true();
+    destroy();
   });
   it('removes the aria-hidden attribute on the wrapper', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
     show.call(dialogDummy);
     expect(dialogDummy.wrapper.getAttribute('aria-hidden')).not.to.exist();
-  });
-  it('keeps track of focuses element on focusOnClose property on the dialogState ', function () {
-    setup({ dispatchRetValue: true });
-    randomElementThatWasActive.focus();
-    expect(randomElementThatWasActive).to.be.equal(document.activeElement);
-    expect(dialogDummy.focusOnClose).to.not.be.equal(randomElementThatWasActive);
-    show.call(dialogDummy);
-    expect(dialogDummy.focusOnClose).to.be.equal(randomElementThatWasActive);
+    destroy();
   });
   it('calls goToDialog(0)', function () {
-    setup({ dispatchRetValue: true });
-    addEventListenerStub = sinon.stub(document.body, 'addEventListener');
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
     show.call(dialogDummy);
     expect(dialogDummy.goToDialog).to.have.been.calledOnce();
     expect(dialogDummy.goToDialog).to.have.been.calledWith(0);
-    addEventListenerStub.restore();
+    destroy();
   });
   it('sets aria-hidden on elemToConceal', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
     show.call(dialogDummy);
     expect(dialogDummy.elemToConceal.getAttribute('aria-hidden')).to.equal('true');
+    destroy();
   });
   it('adds focus eventListener on the document.body calling hideWhenFocusLost', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, addEventListenerStub, destroy } = setup({ dispatchRetValue: true });
     show.call(dialogDummy);
     expect(addEventListenerStub).to.have.been.calledWith(
       'focus', dialogDummy.hideWhenFocusLost, true);
-    addEventListenerStub.restore();
+    destroy();
   });
   it('adds mousedown eventListener on the document.body calling hideWhenFocusLost', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, addEventListenerStub, destroy } = setup({ dispatchRetValue: true });
     show.call(dialogDummy);
     expect(addEventListenerStub).to.have.been.calledWith(
       'mousedown', dialogDummy.hideWhenFocusLost);
-    addEventListenerStub.restore();
+    destroy();
   });
   it('calls dispatchEvent on the wrapper with type `dialog:show-after` and dialog wrapper as data',
     function () {
-      setup({ dispatchRetValue: true });
+      const { dialogDummy, myDispatch, destroy } = setup({ dispatchRetValue: true });
       show.call(dialogDummy);
       expect(myDispatch).to.have.been.calledTwice();
       expect(myDispatch).to.have.been.calledWith(
         dialogDummy.wrapper, 'dialog:show-after', { dialog: dialogDummy.wrapper });
+      destroy();
     });
-
-
-  function setup(options) {
-    // sets 'const allowed' to true or false
-    myDispatch = sinon.stub().returns(options.dispatchRetValue);
-    __RewireAPI__.__Rewire__('dispatchEvent', myDispatch);
-    const wrapperElem = document.createElement('div');
-    const elemToConceal = document.createElement('div');
-    const focusOnClose = document.createElement('div');
-    focusOnClose.id = 'focusOnClose';
-    focusOnClose.setAttribute('tabindex', '-1'); // make it focusable
-    wrapperElem.id = 'test';
-    wrapperElem.setAttribute('aria-hidden', 'true');
-    dialogDummy = {
-      wrapper: wrapperElem,
-      elemToConceal,
-      goToDialog: sinon.spy(),
-      isVisible: false,
-      focusOnClose,
-    };
-    randomElementThatWasActive = document.createElement('div');
-    // divs require tabindex attribute to be 'focusable'
-    randomElementThatWasActive.setAttribute('tabindex', '-1');
-  }
 });
 
 describe('hide function', function () {
-  let removeEventListenerStub;
-  let myDispatch;
-  let dialogDummy;
-  let randomElementThatWasActive;
-  let cleanup;
-
-  beforeEach(function () {
-    cleanup = jsdom();
-  });
-
-  afterEach(function () {
-    cleanup();
-  });
-
   it('should have access to document global', function () {
     expect(document).to.not.be.undefined();
   });
   it('calls dispatchEvent on the wrapper with type `dialog:hide-before` and dialog wrapper as data',
     function () {
-      setup({ dispatchRetValue: false });
+      const { myDispatch, dialogDummy, destroy } = setup({ dispatchRetValue: false });
       hide.call(dialogDummy);
       expect(myDispatch).to.have.been.calledOnce();
       expect(myDispatch).to.have.been.calledWith(
         dialogDummy.wrapper, 'dialog:hide-before', { dialog: dialogDummy.wrapper });
+      destroy();
     });
-  it('cancels show (does not call show-after or goToDialog ) if event was prevented', function () {
-    setup({ dispatchRetValue: false });
+  it('cancels show (does not call hide-after or goToDialog ) if event was prevented', function () {
+    const { myDispatch, dialogDummy, destroy } = setup({ dispatchRetValue: false });
+    hide.call(dialogDummy);
     expect(dialogDummy.goToDialog).to.have.been.not.called();
-    expect(myDispatch).to.not.have.been.calledWith(
+    expect(myDispatch).to.have.been.calledWith(
       dialogDummy.wrapper, 'dialog:hide-before', { dialog: dialogDummy.wrapper });
+    expect(myDispatch).to.not.have.been.calledWith(
+      dialogDummy.wrapper, 'dialog:hide-after', { dialog: dialogDummy.wrapper });
+    destroy();
   });
   it('sets state to not visible', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
     hide.call(dialogDummy);
     expect(dialogDummy.isVisible).to.be.false();
+    destroy();
   });
   it('adds the aria-hidden attribute with a \'true\' value on the wrapper element', function () {
-    setup({ dispatchRetValue: true });
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
     hide.call(dialogDummy);
     expect(dialogDummy.wrapper.getAttribute('aria-hidden')).to.equal('true');
+    destroy();
   });
-  it('keeps track of focuses element on focusOnClose property on the dialogState ', function () {
-    setup({ dispatchRetValue: true });
+  it('sets \'visibleDialogIndex\' to -1 on the wrapper', function () {
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
+    hide.call(dialogDummy);
+    expect(dialogDummy.visibleDialogIndex).to.equal(-1);
+    destroy();
+  });
+  it('removes the aria-hidden attribute on the elemToConceal', function () {
+    const { dialogDummy, destroy } = setup({ dispatchRetValue: true });
+    hide.call(dialogDummy);
+    expect(dialogDummy.elemToConceal.getAttribute('aria-hidden')).not.to.exist();
+    destroy();
+  });
+  it('adds focus eventListener on the document.body calling hideWhenFocusLost', function () {
+    const { removeEventListenerStub, dialogDummy, destroy } = setup({ dispatchRetValue: true });
+    hide.call(dialogDummy);
+    expect(removeEventListenerStub).to.have.been.calledWith(
+      'focus', dialogDummy.hideWhenFocusLost, true);
+    destroy();
+  });
+  it('adds mousedown eventListener on the document.body calling hideWhenFocusLost', function () {
+    const { removeEventListenerStub, dialogDummy, destroy } = setup({ dispatchRetValue: true });
+    hide.call(dialogDummy);
+    expect(removeEventListenerStub).to.have.been.calledWith(
+      'mousedown', dialogDummy.hideWhenFocusLost);
+    destroy();
+  });
+  it('calls dispatchEvent on the wrapper with type `dialog:hide-after` and dialog wrapper as data',
+    function () {
+      const { myDispatch, dialogDummy, destroy } = setup({ dispatchRetValue: true });
+      hide.call(dialogDummy);
+      expect(myDispatch).to.have.been.calledTwice();
+      expect(myDispatch).to.have.been.calledWith(
+        dialogDummy.wrapper, 'dialog:hide-after', { dialog: dialogDummy.wrapper });
+      destroy();
+    });
+});
+
+describe('show/hide flows', function () {
+  it('keeps track of focused element on focusOnClose property on the dialogState ', function () {
+    const { randomElementThatWasActive, dialogDummy, destroy } = setup({ dispatchRetValue: true });
     // First, show
     randomElementThatWasActive.focus();
     expect(randomElementThatWasActive).to.be.equal(document.activeElement);
@@ -168,60 +159,64 @@ describe('hide function', function () {
     // Then, hide
     hide.call(dialogDummy);
     expect(document.activeElement).to.be.equal(randomElementThatWasActive); // restores active focus
+    destroy();
   });
-  it('sets \'visibleDialogIndex\' to -1 on the wrapper', function () {
-    setup({ dispatchRetValue: true });
-    hide.call(dialogDummy);
-    expect(dialogDummy.visibleDialogIndex).to.equal(-1);
-  });
-  it('removes the aria-hidden attribute on the elemToConceal', function () {
-    setup({ dispatchRetValue: true });
-    hide.call(dialogDummy);
-    expect(dialogDummy.elemToConceal.getAttribute('aria-hidden')).not.to.exist();
-  });
-  it('adds focus eventListener on the document.body calling hideWhenFocusLost', function () {
-    setup({ dispatchRetValue: true });
-    hide.call(dialogDummy);
-    expect(removeEventListenerStub).to.have.been.calledWith(
-      'focus', dialogDummy.hideWhenFocusLost, true);
-  });
-  it('adds mousedown eventListener on the document.body calling hideWhenFocusLost', function () {
-    setup({ dispatchRetValue: true });
-    hide.call(dialogDummy);
-    expect(removeEventListenerStub).to.have.been.calledWith(
-      'mousedown', dialogDummy.hideWhenFocusLost);
-  });
-  it('calls dispatchEvent on the wrapper with type `dialog:hide-after` and dialog wrapper as data',
-    function () {
-      setup({ dispatchRetValue: true });
-      hide.call(dialogDummy);
-      expect(myDispatch).to.have.been.calledTwice();
-      expect(myDispatch).to.have.been.calledWith(
-        dialogDummy.wrapper, 'dialog:hide-after', { dialog: dialogDummy.wrapper });
-    });
-
-  function setup(options) {
-    // sets 'const allowed' to true or false
-    myDispatch = sinon.stub().returns(options.dispatchRetValue);
-    __RewireAPI__.__Rewire__('dispatchEvent', myDispatch);
-    const wrapperElem = document.createElement('div');
-    const elemToConceal = document.createElement('div');
-    const focusOnClose = document.createElement('div');
-    focusOnClose.id = 'focusOnClose';
-    focusOnClose.setAttribute('tabindex', '-1'); // make it focusable
-    wrapperElem.id = 'test';
-    wrapperElem.setAttribute('aria-hidden', 'true');
-    dialogDummy = {
-      wrapper: wrapperElem,
-      elemToConceal,
-      goToDialog: sinon.spy(),
-      isVisible: false,
-      focusOnClose,
-      dialogs: [randomElementThatWasActive],
-    };
-    randomElementThatWasActive = document.createElement('div');
-    randomElementThatWasActive.setAttribute('tabindex', '-1'); // make it focusable
-    removeEventListenerStub = sinon.stub(document.body, 'removeEventListener');
-  }
 });
+
+function setup(options) {
+  // sets 'const allowed' to true or false
+  let myDispatch = sinon.stub().returns(options.dispatchRetValue);
+  __RewireAPI__.__Rewire__('dispatchEvent', myDispatch);
+  const wrapperElem = document.createElement('div');
+  wrapperElem.id = 'test';
+  wrapperElem.setAttribute('aria-hidden', 'true');
+  const elemToConceal = document.createElement('div');
+
+  const focusOnClose = document.createElement('div');
+  focusOnClose.id = 'focusOnClose';
+  focusOnClose.setAttribute('tabindex', '-1'); // make it focus-able
+
+  const randomElementThatWasActive = document.createElement('div');
+  randomElementThatWasActive.setAttribute('tabindex', '-1'); // make it focus-able
+  randomElementThatWasActive.id = 'randomElement';
+
+  let dialogDummy = {
+    wrapper: wrapperElem,
+    elemToConceal,
+    goToDialog: sinon.spy(),
+    isVisible: false,
+    focusOnClose,
+    dialogs: [randomElementThatWasActive],
+  };
+
+  // In case some tests broke, don't break the chain
+  if (document.body.addEventListener.restore !== undefined) {
+    document.body.addEventListener.restore();
+  }
+  if (document.body.removeEventListener.restore !== undefined) {
+    document.body.removeEventListener.restore();
+  }
+  const addEventListenerStub = sinon.stub(document.body, 'addEventListener');
+  const removeEventListenerStub = sinon.stub(document.body, 'removeEventListener');
+
+  function destroy() {
+    removeEventListenerStub.restore();
+    addEventListenerStub.restore();
+    randomElementThatWasActive.remove();
+    focusOnClose.remove();
+    elemToConceal.remove();
+    wrapperElem.remove();
+    dialogDummy = undefined;
+    myDispatch = undefined;
+  }
+
+  return {
+    myDispatch,
+    dialogDummy,
+    randomElementThatWasActive,
+    addEventListenerStub,
+    removeEventListenerStub,
+    destroy };
+}
+
 /* eslint-enable no-use-before-define, prefer-arrow-callback, func-names, no-underscore-dangle */
