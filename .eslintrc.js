@@ -13,12 +13,6 @@ module.exports = {
     "mocha": true,
     "node": true,
   },
-
-  "globals": {
-    "expect": true,
-    "sinon": true,
-  },
-
   "rules": {
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0,
