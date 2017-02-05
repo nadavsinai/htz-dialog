@@ -15,7 +15,7 @@
     "gh-pages": "config/gh-pages.sh",
     "init": "git init && npm i",
     "jsdoc": "config/jsdoc.sh",
-    "lint": "eslint --global \"$(node config/echo-eslint-test-globals.js)\" ./src/**/*.js",
+    "lint": "eslint --global \"$(node config/echo-eslint-test-globals.js)\" --env mocha ./src/**/*.js",
     "prepublish": "npm run build",
     "serve": "browser-sync start --s dist ",
     "start": "webpack-dev-server --inline --progress --colors --contentBase=static",
