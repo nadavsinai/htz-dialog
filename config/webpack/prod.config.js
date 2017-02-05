@@ -12,6 +12,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const pkgName = require('../getPackageName');
 
 
 module.exports = function (env) {
@@ -19,13 +20,13 @@ module.exports = function (env) {
     bail: true,
     devtool: 'source-map',
     output: {
-      library: 'htzDialog',
+      library: pkgName.camelCase,
       libraryTarget: 'umd',
       path: path.resolve(env.root, 'dist'),
       filename: '[name].min.js',
       sourceMapFilename: '[name].map',
       umdNamedDefine: true,
-      chunkFilename: '[name]-[id].js'
+      chunkFilename: '[name]-[id]-chunk.js',
     },
     module: {
       rules: [

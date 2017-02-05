@@ -8,9 +8,15 @@ module.exports = {
   },
 
   "env": {
+    "browser": true,
     "es6": true,
+    "mocha": true,
     "node": true,
-    "browser": true
+  },
+
+  "globals": {
+    "expect": true,
+    "sinon": true,
   },
 
   "rules": {

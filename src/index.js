@@ -28,7 +28,7 @@ import {getInstance,allInstances} from './lib/instances';
  * @return {module:htz-dialog#API} - An API for programatically handling the
  *    initialized dialog.
  */
-import { safeChecks, getDialogs, moveWrapper } from './lib/init';
+import { safeChecks, getDialogs, moveWrapper, addDialogAttributes } from './lib/init';
 import addEventListners from './lib/addEventListeners';
 module.exports = htzDialog;
 export default function htzDialog(wrapper,
@@ -39,7 +39,7 @@ export default function htzDialog(wrapper,
   safeChecks(wrapper, appendTo);
   // Get all dialog windows within the dialog wrapper,
   // hide and make them programatically selectable
-  const dialogs = getDialogs(dialogClass, wrapper);
+  const dialogs = getDialogs(dialogClass, wrapper).map(addDialogAttributes);;
 
   moveWrapper(wrapper, appendTo);
   let dialogState = new DialogState(wrapper, dialogs);

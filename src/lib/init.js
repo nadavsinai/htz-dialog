@@ -10,15 +10,17 @@ export function safeChecks(wrapper, appendTo) {
   }
 }
 
-export function getDialogs(dialogClass,wrapper) {
-  return Array.from(wrapper.getElementsByClassName(dialogClass))
-    .map((dialog) => {
-      dialog.setAttribute('aria-hidden', 'true');
-      dialog.setAttribute('tabindex', '-1');
+export function addDialogAttributes(dialog) {
+  dialog.setAttribute('aria-hidden', 'true');
+  dialog.setAttribute('tabindex', '-1');
 
-      return dialog;
-    });
+  return dialog;
 }
+
+export function getDialogs(dialogClass,wrapper) {
+  return Array.from(wrapper.getElementsByClassName(dialogClass));
+}
+
 export function moveWrapper(wrapper,appendTo){
   // Determine if dialog should be moved elsewhere in the DOM
   const moveToId = wrapper.getAttribute('data-htz-dialog-append-to');

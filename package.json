@@ -7,19 +7,21 @@
     "url": "https://github.com/haaretz/htz-dialog"
   },
   "license": "MIT",
+  "module": "src/index.js",
+  "main": "dist/htzDialog.min.js",
   "scripts": {
     "update": "ncu",
-    "build": "NODE_ENV=production webpack -p --progress --display-error-details --color",
+    "build": "cross-env NODE_ENV=production webpack -p --progress --display-error-details --color",
     "gh-pages": "config/gh-pages.sh",
     "init": "git init && npm i",
     "jsdoc": "config/jsdoc.sh",
     "lint": "eslint ./src/**/*.js",
     "prepublish": "npm run build",
-    "serve": "browser-sync start -directory ./dist --server ",
+    "serve": "browser-sync start --s dist ",
     "start": "webpack-dev-server --inline --progress --colors --contentBase=static",
     "tdd:browser": "npm run test:browser -- --auto-watch --no-single-run --browsers Chrome",
     "test:browser": "karma start",
-    "test": "NODE_ENV=test nyc mocha-webpack",
+    "test": "cross-env NODE_ENV=test nyc mocha-webpack",
     "tdd": "npm test -- --watch",
     "coverage:report": "nyc report --reporter=html"
   },
@@ -31,6 +33,7 @@
     "babel-loader": "^6.2.10",
     "babel-plugin-istanbul": "^3.1.2",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-rewire": "^1.0.0",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-es2015-modules-commonjs-simple": "^6.7.4",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
@@ -45,15 +48,16 @@
     "chai-as-promised": "^6.0.0",
     "clean-webpack-plugin": "^0.1.14",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^3.1.4",
     "css-loader": "^0.26.1",
     "dirty-chai": "^1.2.2",
     "eslint": "^3.12.2",
-    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-airbnb": "^14.0.0",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-mocha": "^4.8.0",
     "eslint-plugin-react": "^6.8.0",
-    "extract-text-webpack-plugin": "^2.0.0-beta.4",
+    "extract-text-webpack-plugin": "^2.0.0-beta.5",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.26.0",
     "isparta": "^4.0.0",
@@ -77,7 +81,7 @@
     "karma-sauce-launcher": "^1.1.0",
     "karma-sinon-chai": "^1.2.4",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^1.8.1",
+    "karma-webpack": "^2.0.1",
     "lodash-webpack-plugin": "^0.10.6",
     "loke-jsdoc-theme": "^2.1.0",
     "mkdirp": "^0.5.1",
@@ -91,20 +95,20 @@
     "postcss-loader": "^1.2.1",
     "promise-polyfill": "^6.0.2",
     "sass-loader": "^4.1.1",
+    "simulant": "^0.2.2",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "source-map-loader": "^0.1.5",
     "source-map-support": "^0.4.8",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.0-rc.3",
-    "webpack-dev-server": "^2.2.0-rc.0",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0",
     "webpack-merge": "^2.0.0",
-    "webpack-node-externals": "^1.5.4",
-    "simulant": "^0.2.2"
+    "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
-    "babel-plugin-rewire": "^1.0.0",
+    "babel-runtime": "^6.20.0",
     "htz-dispatch-event": "https://github.com/Haaretz/htz-dispatch-event/archive/1.0.3.tar.gz",
     "htz-get-focusables": "https://github.com/Haaretz/htz-get-focusables/archive/v1.0.2.tar.gz"
   },
@@ -113,7 +117,9 @@
       "src/**/*.js"
     ],
     "exclude": [
-      "**/*.spec.js"
+      "node_modules",
+      ".tmp",
+      "src/**/*.spec.js"
     ],
     "require": [
       "babel-register"

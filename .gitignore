@@ -1,17 +1,6 @@
-# Ignore patternlab files,  except sources
-/pl/*
-!/pl/source
-!/pl/config
-
-# Ignore external packages
-node_modules
-jspm_packages
-
-# Ignore generated files
-/css
-/sgSrc/assets
-/styleguide
-/dist
-/coverage
-/.tmp
+# Created by .ignore support plugin (hsz.mobi)
+dist
+.idea
 .nyc_output
+.tmp
+coverage
