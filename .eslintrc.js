@@ -8,11 +8,10 @@ module.exports = {
   },
 
   "env": {
+    "browser": true,
     "es6": true,
     "node": true,
-    "browser": true
   },
-
   "rules": {
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0,
